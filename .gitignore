@@ -1,0 +1,13 @@
+syntax: glob
+proj.win32/Release/
+proj.win32/Debug/
+*.sdf
+*.opensdf
+examples/Movie/proj.win32/Debug_v
+examples/Movie/proj.win32/Debug_v*
+proj.win32/Debug_v*
+proj.win32/Release_v*/
+examples/Movie/proj.android/bin/
+examples/Movie/proj.android/gen/
+examples/Movie/proj.android/libs/
+examples/Movie/proj.android/obj/

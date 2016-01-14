@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{83882B80-5AA5-4C9A-912D-643804E29C38}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>oxyginemovie_vs2013</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '10.0'">v100</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '10.0'">v100</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)_$(PlatformToolset)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)_$(PlatformToolset)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)_$(PlatformToolset)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)_$(PlatformToolset)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\oxygine-framework\oxygine\src;..\deps\;..\src;..\deps\libtheora\include;..\..\oxygine-sound\dependencies\libogg\include;..\..\oxygine-sound\dependencies\tremor\Tremor;..\..\oxygine-framework\oxygine\third_party\win32\pthreads\include;..\..\oxygine-sound\src\oal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\oxygine-framework\oxygine\src;..\deps\;..\src;..\deps\libtheora\include;..\..\oxygine-sound\dependencies\libogg\include;..\..\oxygine-sound\dependencies\tremor\Tremor;..\..\oxygine-framework\oxygine\third_party\win32\pthreads\include;..\..\oxygine-sound\src\oal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\deps\libtheora\lib\analyze.c" />
+    <ClCompile Include="..\deps\libtheora\lib\apiwrapper.c" />
+    <ClCompile Include="..\deps\libtheora\lib\bitpack.c" />
+    <ClCompile Include="..\deps\libtheora\lib\cpu.c" />
+    <ClCompile Include="..\deps\libtheora\lib\decapiwrapper.c" />
+    <ClCompile Include="..\deps\libtheora\lib\decinfo.c" />
+    <ClCompile Include="..\deps\libtheora\lib\decode.c" />
+    <ClCompile Include="..\deps\libtheora\lib\dequant.c" />
+    <ClCompile Include="..\deps\libtheora\lib\encapiwrapper.c" />
+    <ClCompile Include="..\deps\libtheora\lib\encfrag.c" />
+    <ClCompile Include="..\deps\libtheora\lib\encinfo.c" />
+    <ClCompile Include="..\deps\libtheora\lib\encode.c" />
+    <ClCompile Include="..\deps\libtheora\lib\enquant.c" />
+    <ClCompile Include="..\deps\libtheora\lib\fdct.c" />
+    <ClCompile Include="..\deps\libtheora\lib\fragment.c" />
+    <ClCompile Include="..\deps\libtheora\lib\huffdec.c" />
+    <ClCompile Include="..\deps\libtheora\lib\huffenc.c" />
+    <ClCompile Include="..\deps\libtheora\lib\idct.c" />
+    <ClCompile Include="..\deps\libtheora\lib\info.c" />
+    <ClCompile Include="..\deps\libtheora\lib\internal.c" />
+    <ClCompile Include="..\deps\libtheora\lib\mathops.c" />
+    <ClCompile Include="..\deps\libtheora\lib\mcenc.c" />
+    <ClCompile Include="..\deps\libtheora\lib\quant.c" />
+    <ClCompile Include="..\deps\libtheora\lib\rate.c" />
+    <ClCompile Include="..\deps\libtheora\lib\state.c" />
+    <ClCompile Include="..\deps\libtheora\lib\tokenize.c" />
+    <ClCompile Include="..\src\MovieSprite.cpp" />
+    <ClCompile Include="..\src\theora\MovieSpriteTheora.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\deps\libtheora\lib\apiwrapper.h" />
+    <ClInclude Include="..\deps\libtheora\lib\bitpack.h" />
+    <ClInclude Include="..\deps\libtheora\lib\cpu.h" />
+    <ClInclude Include="..\deps\libtheora\lib\dct.h" />
+    <ClInclude Include="..\deps\libtheora\lib\decint.h" />
+    <ClInclude Include="..\deps\libtheora\lib\dequant.h" />
+    <ClInclude Include="..\deps\libtheora\lib\encint.h" />
+    <ClInclude Include="..\deps\libtheora\lib\enquant.h" />
+    <ClInclude Include="..\deps\libtheora\lib\huffdec.h" />
+    <ClInclude Include="..\deps\libtheora\lib\huffenc.h" />
+    <ClInclude Include="..\deps\libtheora\lib\huffman.h" />
+    <ClInclude Include="..\deps\libtheora\lib\internal.h" />
+    <ClInclude Include="..\deps\libtheora\lib\mathops.h" />
+    <ClInclude Include="..\deps\libtheora\lib\modedec.h" />
+    <ClInclude Include="..\deps\libtheora\lib\ocintrin.h" />
+    <ClInclude Include="..\deps\libtheora\lib\quant.h" />
+    <ClInclude Include="..\src\MovieSprite.h" />
+    <ClInclude Include="..\src\theora\MovieSpriteTheora.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

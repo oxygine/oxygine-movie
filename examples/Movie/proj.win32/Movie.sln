@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Movie", "Movie.vcxproj", "{2B4D7491-A4F8-4606-B0E3-2A1FCE3C46C4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "oxygine", "..\..\..\..\oxygine-framework\oxygine\SDL\win32\oxygine.vcxproj", "{52411305-CFE1-4FA8-9885-5729BFC816CF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "oxygine-movie", "..\..\..\proj.win32\oxygine-movie.vcxproj", "{83882B80-5AA5-4C9A-912D-643804E29C38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B4D7491-A4F8-4606-B0E3-2A1FCE3C46C4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2B4D7491-A4F8-4606-B0E3-2A1FCE3C46C4}.Debug|Win32.Build.0 = Debug|Win32
+		{2B4D7491-A4F8-4606-B0E3-2A1FCE3C46C4}.Debug|x64.ActiveCfg = Debug|Win32
+		{2B4D7491-A4F8-4606-B0E3-2A1FCE3C46C4}.Release|Win32.ActiveCfg = Release|Win32
+		{2B4D7491-A4F8-4606-B0E3-2A1FCE3C46C4}.Release|Win32.Build.0 = Release|Win32
+		{2B4D7491-A4F8-4606-B0E3-2A1FCE3C46C4}.Release|x64.ActiveCfg = Release|Win32
+		{52411305-CFE1-4FA8-9885-5729BFC816CF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{52411305-CFE1-4FA8-9885-5729BFC816CF}.Debug|Win32.Build.0 = Debug|Win32
+		{52411305-CFE1-4FA8-9885-5729BFC816CF}.Debug|x64.ActiveCfg = Debug|Win32
+		{52411305-CFE1-4FA8-9885-5729BFC816CF}.Release|Win32.ActiveCfg = Release|Win32
+		{52411305-CFE1-4FA8-9885-5729BFC816CF}.Release|Win32.Build.0 = Release|Win32
+		{52411305-CFE1-4FA8-9885-5729BFC816CF}.Release|x64.ActiveCfg = Release|Win32
+		{83882B80-5AA5-4C9A-912D-643804E29C38}.Debug|Win32.ActiveCfg = Debug|Win32
+		{83882B80-5AA5-4C9A-912D-643804E29C38}.Debug|Win32.Build.0 = Debug|Win32
+		{83882B80-5AA5-4C9A-912D-643804E29C38}.Debug|x64.ActiveCfg = Debug|Win32
+		{83882B80-5AA5-4C9A-912D-643804E29C38}.Release|Win32.ActiveCfg = Release|Win32
+		{83882B80-5AA5-4C9A-912D-643804E29C38}.Release|Win32.Build.0 = Release|Win32
+		{83882B80-5AA5-4C9A-912D-643804E29C38}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

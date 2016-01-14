@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="theora">
+      <UniqueIdentifier>{67d375f0-c2bf-4824-b50c-b7ef95ce899a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="theora\lib">
+      <UniqueIdentifier>{e9a46e36-eb5e-4250-a6f7-d98062b79c59}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\MovieSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\theora\MovieSpriteTheora.cpp">
+      <Filter>theora</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\analyze.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\apiwrapper.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\bitpack.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\cpu.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\decapiwrapper.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\decinfo.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\decode.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\dequant.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\encapiwrapper.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\encfrag.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\encinfo.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\encode.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\enquant.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\fdct.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\fragment.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\huffdec.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\huffenc.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\idct.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\info.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\internal.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\mathops.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\mcenc.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\quant.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\rate.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\state.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\libtheora\lib\tokenize.c">
+      <Filter>theora\lib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\MovieSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\theora\MovieSpriteTheora.h">
+      <Filter>theora</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\apiwrapper.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\bitpack.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\cpu.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\dct.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\decint.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\dequant.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\encint.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\enquant.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\huffdec.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\huffenc.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\huffman.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\internal.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\mathops.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\modedec.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\ocintrin.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\libtheora\lib\quant.h">
+      <Filter>theora\lib</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

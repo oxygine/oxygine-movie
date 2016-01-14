@@ -1,0 +1,34 @@
+cmake_minimum_required (VERSION 2.6)
+project (OXYGINEMOVIE)
+
+set(OXYGINEMOVIE_INCLUDE_DIRS
+	${CMAKE_CURRENT_SOURCE_DIR}/src
+	${CMAKE_CURRENT_SOURCE_DIR}/deps
+	)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+message(status ${OXYGINEMOVIE_INCLUDE_DIRS})
+
+set(SRC
+	src/MovieSprite.h
+	src/MovieSprite.cpp
+	)
+
+add_library(oxygine-movie STATIC ${SRC})
+
+set(OXYGINEMOVIE_INCLUDE_DIRS ${OXYGINEMOVIE_INCLUDE_DIRS}
+	${CMAKE_CURRENT_SOURCE_DIR}/dependencies/openal/include)
+
+set(OXYGINEMOVIE_LIBS
+	oxygine-movie
+	vlc
+	)
+
+include_directories(${OXYGINEMOVIE_INCLUDE_DIRS})
+
+set(OXYGINEMOVIE_INCLUDE_DIRS
+	${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+set(OXYGINEMOVIE_INCLUDE_DIRS ${OXYGINEMOVIE_INCLUDE_DIRS} PARENT_SCOPE)
+set(OXYGINEMOVIE_LIBS ${OXYGINEMOVIE_LIBS} PARENT_SCOPE)

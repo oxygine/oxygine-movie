@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<resources>
+	<set path = "images" />
+	<atlas>
+		<image file="controls.png" cols="5"/>		
+		<image file="bg.png"/>		
+		<image file="from_player.png"/>
+		<image file="from_game.png"/>		
+	</atlas>
+	
+	<set path = "fonts" />
+	<font file="main.fnt" />	
+</resources>

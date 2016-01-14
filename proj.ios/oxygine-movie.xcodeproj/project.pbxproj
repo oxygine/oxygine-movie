@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		92C8481A1BD2004400DEA843 /* MovieSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C848151BD2004400DEA843 /* MovieSprite.cpp */; settings = {ASSET_TAGS = (); }; };
+		92C8481B1BD2004400DEA843 /* MovieSpriteTheora.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C848181BD2004400DEA843 /* MovieSpriteTheora.cpp */; settings = {ASSET_TAGS = (); }; };
+		92C848911BD2049A00DEA843 /* analyze.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848611BD2049A00DEA843 /* analyze.c */; settings = {ASSET_TAGS = (); }; };
+		92C848921BD2049A00DEA843 /* apiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848621BD2049A00DEA843 /* apiwrapper.c */; settings = {ASSET_TAGS = (); }; };
+		92C848931BD2049A00DEA843 /* bitpack.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848641BD2049A00DEA843 /* bitpack.c */; settings = {ASSET_TAGS = (); }; };
+		92C848941BD2049A00DEA843 /* cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848661BD2049A00DEA843 /* cpu.c */; settings = {ASSET_TAGS = (); }; };
+		92C848951BD2049A00DEA843 /* decapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848691BD2049A00DEA843 /* decapiwrapper.c */; settings = {ASSET_TAGS = (); }; };
+		92C848961BD2049A00DEA843 /* decinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486A1BD2049A00DEA843 /* decinfo.c */; settings = {ASSET_TAGS = (); }; };
+		92C848971BD2049A00DEA843 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486C1BD2049A00DEA843 /* decode.c */; settings = {ASSET_TAGS = (); }; };
+		92C848981BD2049A00DEA843 /* dequant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486D1BD2049A00DEA843 /* dequant.c */; settings = {ASSET_TAGS = (); }; };
+		92C848991BD2049A00DEA843 /* encapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486F1BD2049A00DEA843 /* encapiwrapper.c */; settings = {ASSET_TAGS = (); }; };
+		92C8489A1BD2049A00DEA843 /* encfrag.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848701BD2049A00DEA843 /* encfrag.c */; settings = {ASSET_TAGS = (); }; };
+		92C8489B1BD2049A00DEA843 /* encinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848711BD2049A00DEA843 /* encinfo.c */; settings = {ASSET_TAGS = (); }; };
+		92C8489D1BD2049A00DEA843 /* encoder_disabled.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848741BD2049A00DEA843 /* encoder_disabled.c */; settings = {ASSET_TAGS = (); }; };
+		92C8489E1BD2049A00DEA843 /* enquant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848751BD2049A00DEA843 /* enquant.c */; settings = {ASSET_TAGS = (); }; };
+		92C8489F1BD2049A00DEA843 /* fdct.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848771BD2049A00DEA843 /* fdct.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A01BD2049A00DEA843 /* fragment.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848781BD2049A00DEA843 /* fragment.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A11BD2049A00DEA843 /* huffdec.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848791BD2049A00DEA843 /* huffdec.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A21BD2049A00DEA843 /* huffenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487B1BD2049A00DEA843 /* huffenc.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A31BD2049A00DEA843 /* idct.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487E1BD2049A00DEA843 /* idct.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A41BD2049A00DEA843 /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487F1BD2049A00DEA843 /* info.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A51BD2049A00DEA843 /* internal.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848801BD2049A00DEA843 /* internal.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A61BD2049A00DEA843 /* mathops.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848841BD2049A00DEA843 /* mathops.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A71BD2049A00DEA843 /* mcenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848861BD2049A00DEA843 /* mcenc.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A81BD2049A00DEA843 /* quant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848891BD2049A00DEA843 /* quant.c */; settings = {ASSET_TAGS = (); }; };
+		92C848A91BD2049A00DEA843 /* rate.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488B1BD2049A00DEA843 /* rate.c */; settings = {ASSET_TAGS = (); }; };
+		92C848AA1BD2049A00DEA843 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488C1BD2049A00DEA843 /* state.c */; settings = {ASSET_TAGS = (); }; };
+		92C848AE1BD2049A00DEA843 /* tokenize.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848901BD2049A00DEA843 /* tokenize.c */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92EEFD4A1BD1FECA00DEAA40 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		92C848151BD2004400DEA843 /* MovieSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MovieSprite.cpp; path = ../src/MovieSprite.cpp; sourceTree = "<group>"; };
+		92C848161BD2004400DEA843 /* MovieSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieSprite.h; path = ../src/MovieSprite.h; sourceTree = "<group>"; };
+		92C848181BD2004400DEA843 /* MovieSpriteTheora.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovieSpriteTheora.cpp; sourceTree = "<group>"; };
+		92C848191BD2004400DEA843 /* MovieSpriteTheora.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieSpriteTheora.h; sourceTree = "<group>"; };
+		92C848611BD2049A00DEA843 /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = analyze.c; path = ../deps/libtheora/lib/analyze.c; sourceTree = "<group>"; };
+		92C848621BD2049A00DEA843 /* apiwrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = apiwrapper.c; path = ../deps/libtheora/lib/apiwrapper.c; sourceTree = "<group>"; };
+		92C848631BD2049A00DEA843 /* apiwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = apiwrapper.h; path = ../deps/libtheora/lib/apiwrapper.h; sourceTree = "<group>"; };
+		92C848641BD2049A00DEA843 /* bitpack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitpack.c; path = ../deps/libtheora/lib/bitpack.c; sourceTree = "<group>"; };
+		92C848651BD2049A00DEA843 /* bitpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bitpack.h; path = ../deps/libtheora/lib/bitpack.h; sourceTree = "<group>"; };
+		92C848661BD2049A00DEA843 /* cpu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpu.c; path = ../deps/libtheora/lib/cpu.c; sourceTree = "<group>"; };
+		92C848671BD2049A00DEA843 /* cpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cpu.h; path = ../deps/libtheora/lib/cpu.h; sourceTree = "<group>"; };
+		92C848681BD2049A00DEA843 /* dct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dct.h; path = ../deps/libtheora/lib/dct.h; sourceTree = "<group>"; };
+		92C848691BD2049A00DEA843 /* decapiwrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = decapiwrapper.c; path = ../deps/libtheora/lib/decapiwrapper.c; sourceTree = "<group>"; };
+		92C8486A1BD2049A00DEA843 /* decinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = decinfo.c; path = ../deps/libtheora/lib/decinfo.c; sourceTree = "<group>"; };
+		92C8486B1BD2049A00DEA843 /* decint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = decint.h; path = ../deps/libtheora/lib/decint.h; sourceTree = "<group>"; };
+		92C8486C1BD2049A00DEA843 /* decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = decode.c; path = ../deps/libtheora/lib/decode.c; sourceTree = "<group>"; };
+		92C8486D1BD2049A00DEA843 /* dequant.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dequant.c; path = ../deps/libtheora/lib/dequant.c; sourceTree = "<group>"; };
+		92C8486E1BD2049A00DEA843 /* dequant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dequant.h; path = ../deps/libtheora/lib/dequant.h; sourceTree = "<group>"; };
+		92C8486F1BD2049A00DEA843 /* encapiwrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = encapiwrapper.c; path = ../deps/libtheora/lib/encapiwrapper.c; sourceTree = "<group>"; };
+		92C848701BD2049A00DEA843 /* encfrag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = encfrag.c; path = ../deps/libtheora/lib/encfrag.c; sourceTree = "<group>"; };
+		92C848711BD2049A00DEA843 /* encinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = encinfo.c; path = ../deps/libtheora/lib/encinfo.c; sourceTree = "<group>"; };
+		92C848721BD2049A00DEA843 /* encint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = encint.h; path = ../deps/libtheora/lib/encint.h; sourceTree = "<group>"; };
+		92C848741BD2049A00DEA843 /* encoder_disabled.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = encoder_disabled.c; path = ../deps/libtheora/lib/encoder_disabled.c; sourceTree = "<group>"; };
+		92C848751BD2049A00DEA843 /* enquant.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = enquant.c; path = ../deps/libtheora/lib/enquant.c; sourceTree = "<group>"; };
+		92C848761BD2049A00DEA843 /* enquant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = enquant.h; path = ../deps/libtheora/lib/enquant.h; sourceTree = "<group>"; };
+		92C848771BD2049A00DEA843 /* fdct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fdct.c; path = ../deps/libtheora/lib/fdct.c; sourceTree = "<group>"; };
+		92C848781BD2049A00DEA843 /* fragment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fragment.c; path = ../deps/libtheora/lib/fragment.c; sourceTree = "<group>"; };
+		92C848791BD2049A00DEA843 /* huffdec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = huffdec.c; path = ../deps/libtheora/lib/huffdec.c; sourceTree = "<group>"; };
+		92C8487A1BD2049A00DEA843 /* huffdec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = huffdec.h; path = ../deps/libtheora/lib/huffdec.h; sourceTree = "<group>"; };
+		92C8487B1BD2049A00DEA843 /* huffenc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = huffenc.c; path = ../deps/libtheora/lib/huffenc.c; sourceTree = "<group>"; };
+		92C8487C1BD2049A00DEA843 /* huffenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = huffenc.h; path = ../deps/libtheora/lib/huffenc.h; sourceTree = "<group>"; };
+		92C8487D1BD2049A00DEA843 /* huffman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = huffman.h; path = ../deps/libtheora/lib/huffman.h; sourceTree = "<group>"; };
+		92C8487E1BD2049A00DEA843 /* idct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = idct.c; path = ../deps/libtheora/lib/idct.c; sourceTree = "<group>"; };
+		92C8487F1BD2049A00DEA843 /* info.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = info.c; path = ../deps/libtheora/lib/info.c; sourceTree = "<group>"; };
+		92C848801BD2049A00DEA843 /* internal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = internal.c; path = ../deps/libtheora/lib/internal.c; sourceTree = "<group>"; };
+		92C848811BD2049A00DEA843 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = internal.h; path = ../deps/libtheora/lib/internal.h; sourceTree = "<group>"; };
+		92C848841BD2049A00DEA843 /* mathops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mathops.c; path = ../deps/libtheora/lib/mathops.c; sourceTree = "<group>"; };
+		92C848851BD2049A00DEA843 /* mathops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mathops.h; path = ../deps/libtheora/lib/mathops.h; sourceTree = "<group>"; };
+		92C848861BD2049A00DEA843 /* mcenc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mcenc.c; path = ../deps/libtheora/lib/mcenc.c; sourceTree = "<group>"; };
+		92C848871BD2049A00DEA843 /* modedec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = modedec.h; path = ../deps/libtheora/lib/modedec.h; sourceTree = "<group>"; };
+		92C848881BD2049A00DEA843 /* ocintrin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ocintrin.h; path = ../deps/libtheora/lib/ocintrin.h; sourceTree = "<group>"; };
+		92C848891BD2049A00DEA843 /* quant.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = quant.c; path = ../deps/libtheora/lib/quant.c; sourceTree = "<group>"; };
+		92C8488A1BD2049A00DEA843 /* quant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = quant.h; path = ../deps/libtheora/lib/quant.h; sourceTree = "<group>"; };
+		92C8488B1BD2049A00DEA843 /* rate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rate.c; path = ../deps/libtheora/lib/rate.c; sourceTree = "<group>"; };
+		92C8488C1BD2049A00DEA843 /* state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = state.c; path = ../deps/libtheora/lib/state.c; sourceTree = "<group>"; };
+		92C848901BD2049A00DEA843 /* tokenize.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tokenize.c; path = ../deps/libtheora/lib/tokenize.c; sourceTree = "<group>"; };
+		92EEFD4C1BD1FECA00DEAA40 /* liboxygine-movie.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "liboxygine-movie.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		92EEFD491BD1FECA00DEAA40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		92C848171BD2004400DEA843 /* theora */ = {
+			isa = PBXGroup;
+			children = (
+				92C848181BD2004400DEA843 /* MovieSpriteTheora.cpp */,
+				92C848191BD2004400DEA843 /* MovieSpriteTheora.h */,
+			);
+			name = theora;
+			path = ../src/theora;
+			sourceTree = "<group>";
+		};
+		92EEFD431BD1FECA00DEAA40 = {
+			isa = PBXGroup;
+			children = (
+				92EEFD5D1BD1FF0900DEAA40 /* theora */,
+				92EEFD581BD1FEDD00DEAA40 /* src */,
+				92EEFD4D1BD1FECA00DEAA40 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		92EEFD4D1BD1FECA00DEAA40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92EEFD4C1BD1FECA00DEAA40 /* liboxygine-movie.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		92EEFD581BD1FEDD00DEAA40 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				92C848151BD2004400DEA843 /* MovieSprite.cpp */,
+				92C848161BD2004400DEA843 /* MovieSprite.h */,
+				92C848171BD2004400DEA843 /* theora */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		92EEFD5D1BD1FF0900DEAA40 /* theora */ = {
+			isa = PBXGroup;
+			children = (
+				92C848611BD2049A00DEA843 /* analyze.c */,
+				92C848621BD2049A00DEA843 /* apiwrapper.c */,
+				92C848631BD2049A00DEA843 /* apiwrapper.h */,
+				92C848641BD2049A00DEA843 /* bitpack.c */,
+				92C848651BD2049A00DEA843 /* bitpack.h */,
+				92C848661BD2049A00DEA843 /* cpu.c */,
+				92C848671BD2049A00DEA843 /* cpu.h */,
+				92C848681BD2049A00DEA843 /* dct.h */,
+				92C848691BD2049A00DEA843 /* decapiwrapper.c */,
+				92C8486A1BD2049A00DEA843 /* decinfo.c */,
+				92C8486B1BD2049A00DEA843 /* decint.h */,
+				92C8486C1BD2049A00DEA843 /* decode.c */,
+				92C8486D1BD2049A00DEA843 /* dequant.c */,
+				92C8486E1BD2049A00DEA843 /* dequant.h */,
+				92C8486F1BD2049A00DEA843 /* encapiwrapper.c */,
+				92C848701BD2049A00DEA843 /* encfrag.c */,
+				92C848711BD2049A00DEA843 /* encinfo.c */,
+				92C848721BD2049A00DEA843 /* encint.h */,
+				92C848741BD2049A00DEA843 /* encoder_disabled.c */,
+				92C848751BD2049A00DEA843 /* enquant.c */,
+				92C848761BD2049A00DEA843 /* enquant.h */,
+				92C848771BD2049A00DEA843 /* fdct.c */,
+				92C848781BD2049A00DEA843 /* fragment.c */,
+				92C848791BD2049A00DEA843 /* huffdec.c */,
+				92C8487A1BD2049A00DEA843 /* huffdec.h */,
+				92C8487B1BD2049A00DEA843 /* huffenc.c */,
+				92C8487C1BD2049A00DEA843 /* huffenc.h */,
+				92C8487D1BD2049A00DEA843 /* huffman.h */,
+				92C8487E1BD2049A00DEA843 /* idct.c */,
+				92C8487F1BD2049A00DEA843 /* info.c */,
+				92C848801BD2049A00DEA843 /* internal.c */,
+				92C848811BD2049A00DEA843 /* internal.h */,
+				92C848841BD2049A00DEA843 /* mathops.c */,
+				92C848851BD2049A00DEA843 /* mathops.h */,
+				92C848861BD2049A00DEA843 /* mcenc.c */,
+				92C848871BD2049A00DEA843 /* modedec.h */,
+				92C848881BD2049A00DEA843 /* ocintrin.h */,
+				92C848891BD2049A00DEA843 /* quant.c */,
+				92C8488A1BD2049A00DEA843 /* quant.h */,
+				92C8488B1BD2049A00DEA843 /* rate.c */,
+				92C8488C1BD2049A00DEA843 /* state.c */,
+				92C848901BD2049A00DEA843 /* tokenize.c */,
+			);
+			name = theora;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		92EEFD4B1BD1FECA00DEAA40 /* oxygine-movie */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92EEFD551BD1FECA00DEAA40 /* Build configuration list for PBXNativeTarget "oxygine-movie" */;
+			buildPhases = (
+				92EEFD481BD1FECA00DEAA40 /* Sources */,
+				92EEFD491BD1FECA00DEAA40 /* Frameworks */,
+				92EEFD4A1BD1FECA00DEAA40 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "oxygine-movie";
+			productName = "oxygine-movie";
+			productReference = 92EEFD4C1BD1FECA00DEAA40 /* liboxygine-movie.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92EEFD441BD1FECA00DEAA40 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = oxygine;
+				TargetAttributes = {
+					92EEFD4B1BD1FECA00DEAA40 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = 92EEFD471BD1FECA00DEAA40 /* Build configuration list for PBXProject "oxygine-movie" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 92EEFD431BD1FECA00DEAA40;
+			productRefGroup = 92EEFD4D1BD1FECA00DEAA40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				92EEFD4B1BD1FECA00DEAA40 /* oxygine-movie */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		92EEFD481BD1FECA00DEAA40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92C8489B1BD2049A00DEA843 /* encinfo.c in Sources */,
+				92C848A21BD2049A00DEA843 /* huffenc.c in Sources */,
+				92C848AE1BD2049A00DEA843 /* tokenize.c in Sources */,
+				92C848A01BD2049A00DEA843 /* fragment.c in Sources */,
+				92C848941BD2049A00DEA843 /* cpu.c in Sources */,
+				92C848931BD2049A00DEA843 /* bitpack.c in Sources */,
+				92C848A61BD2049A00DEA843 /* mathops.c in Sources */,
+				92C848991BD2049A00DEA843 /* encapiwrapper.c in Sources */,
+				92C848961BD2049A00DEA843 /* decinfo.c in Sources */,
+				92C8489E1BD2049A00DEA843 /* enquant.c in Sources */,
+				92C848921BD2049A00DEA843 /* apiwrapper.c in Sources */,
+				92C848A81BD2049A00DEA843 /* quant.c in Sources */,
+				92C848A91BD2049A00DEA843 /* rate.c in Sources */,
+				92C848971BD2049A00DEA843 /* decode.c in Sources */,
+				92C8481B1BD2004400DEA843 /* MovieSpriteTheora.cpp in Sources */,
+				92C848A51BD2049A00DEA843 /* internal.c in Sources */,
+				92C848981BD2049A00DEA843 /* dequant.c in Sources */,
+				92C8489A1BD2049A00DEA843 /* encfrag.c in Sources */,
+				92C848951BD2049A00DEA843 /* decapiwrapper.c in Sources */,
+				92C8489F1BD2049A00DEA843 /* fdct.c in Sources */,
+				92C848A71BD2049A00DEA843 /* mcenc.c in Sources */,
+				92C848AA1BD2049A00DEA843 /* state.c in Sources */,
+				92C8481A1BD2004400DEA843 /* MovieSprite.cpp in Sources */,
+				92C848A41BD2049A00DEA843 /* info.c in Sources */,
+				92C848A11BD2049A00DEA843 /* huffdec.c in Sources */,
+				92C8489D1BD2049A00DEA843 /* encoder_disabled.c in Sources */,
+				92C848A31BD2049A00DEA843 /* idct.c in Sources */,
+				92C848911BD2049A00DEA843 /* analyze.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		92EEFD531BD1FECA00DEAA40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "../src ../../oxygine-framework/oxygine/src ../../oxygine-sound/dependencies/tremor/tremor ../../oxygine-sound/dependencies/libogg/include ../../oxygine-sound/dependencies/openal/include ../deps/libtheora/include";
+			};
+			name = Debug;
+		};
+		92EEFD541BD1FECA00DEAA40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "../src ../../oxygine-framework/oxygine/src ../../oxygine-sound/dependencies/tremor/tremor ../../oxygine-sound/dependencies/libogg/include ../../oxygine-sound/dependencies/openal/include ../deps/libtheora/include";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		92EEFD561BD1FECA00DEAA40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		92EEFD571BD1FECA00DEAA40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		92EEFD471BD1FECA00DEAA40 /* Build configuration list for PBXProject "oxygine-movie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92EEFD531BD1FECA00DEAA40 /* Debug */,
+				92EEFD541BD1FECA00DEAA40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92EEFD551BD1FECA00DEAA40 /* Build configuration list for PBXNativeTarget "oxygine-movie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92EEFD561BD1FECA00DEAA40 /* Debug */,
+				92EEFD571BD1FECA00DEAA40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92EEFD441BD1FECA00DEAA40 /* Project object */;
+}
