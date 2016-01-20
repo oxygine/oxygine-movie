@@ -20,6 +20,10 @@ add_executable(Movie
 	../src/entry_point.cpp
 	../src/example.cpp
 	../src/example.h
+  ../src/test.cpp
+  ../src/TestCommon.h
+  ../src/TestConverse.h
+  ../src/TestStress.h
 	)
 
 target_link_libraries(Movie

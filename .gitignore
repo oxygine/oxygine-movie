@@ -11,3 +11,4 @@ examples/Movie/proj.android/bin/
 examples/Movie/proj.android/gen/
 examples/Movie/proj.android/libs/
 examples/Movie/proj.android/obj/
+examples/Movie/proj.cmake/build
