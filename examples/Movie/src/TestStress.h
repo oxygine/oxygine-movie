@@ -57,7 +57,7 @@ public:
                 dt.w = sz.x;
                 dt.h = sz.y;
                 Rect src;
-				Point offset(0, 0);
+                Point offset(0, 0);
                 if (_atlas.add(0, dt, src, offset))
                 {
                     movie->setPosition(src.getLeftTop());
