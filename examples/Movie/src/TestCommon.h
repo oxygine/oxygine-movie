@@ -40,7 +40,7 @@ public:
     {
         _current = 0;
         _movie = MovieSprite::create();
-        _movie->setInputEnabled(false);
+        _movie->setTouchEnabled(false);
 
         setSize(getStage()->getSize());
 
