@@ -10,6 +10,7 @@ public:
 
     TestPrerender()
     {
+        //ResAnim* rs = createResAnimFromMovie("movies/t2p.ogv");
         ResAnim* rs = createResAnimFromMovie("movies/out.ogv");
 
         sp = new Sprite();

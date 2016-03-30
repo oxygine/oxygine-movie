@@ -464,6 +464,15 @@ namespace oxygine
                         int h = buffer[0].height;
 
 
+                        /*
+                        const unsigned char* srcY = buffer[0].data + ti.pic_y * buffer[0].stride + ti.pic_x;
+
+                        int stride = buffer[0].stride;
+                        int w = ti.pic_width;
+                        int h = ti.pic_height;
+                        */
+
+
 
 
                         Rect bounds = Rect::invalidated();
@@ -556,39 +565,103 @@ namespace oxygine
                             for (int x = 0; x != w; x++)
                             {
                                 Pixel px;
-                                px.r = 255;
-                                px.g = 255;
-                                px.b = 255;
+
+                                const int A = 1;
+
+                                const unsigned char* ya = srcLineYA;
+                                unsigned char* rgba = destLineRGBA;
 
 
-                                float y = (*srcLineYA) / 255.0f;
-                                float v = (*srcLineUV)       / 255.0f - 0.5f;
-                                float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
+                                {
+                                    float y = (*ya) / 255.0f;
+                                    float v = (*srcLineUV) / 255.0f - 0.5f;
+                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
 
-                                float q = 1.164383561643836 * (y - 0.0625);
+                                    float q = 1.164383561643836 * (y - 0.0625);
 
-
-
-                                float  r = q                         + 1.596026785714286 * v;
-                                float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
-                                float  b = q + 2.017232142857143 * u;
-
-
-                                px.r = Clamp2Byte(r * 255);
-                                px.g = Clamp2Byte(g * 255);
-                                px.b = Clamp2Byte(b * 255);
+                                    float  r = q + 1.596026785714286 * v;
+                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
+                                    float  b = q + 2.017232142857143 * u;
 
 
+                                    px.r = Clamp2Byte(r * 255);
+                                    px.g = Clamp2Byte(g * 255);
+                                    px.b = Clamp2Byte(b * 255);
 
-                                px.a = *(srcLineYA + 1);
-                                p.setPixel(destLineRGBA, px);
-                                px.a = *(srcLineYA + 1 + 2);
-                                p.setPixel(destLineRGBA + 4, px);
-                                px.a = *(srcLineYA + 1 + dstYA.pitch);
-                                p.setPixel(destLineRGBA + dest.pitch, px);
-                                px.a = *(srcLineYA + 1 + dstYA.pitch + 2);
-                                p.setPixel(destLineRGBA + dest.pitch + 4, px);
+                                    px.a = *(ya + A);
+                                    p.setPixel(rgba, px);
+                                }
 
+
+                                ya += 2;
+                                rgba += 4;
+
+
+                                {
+                                    float y = (*ya) / 255.0f;
+                                    float v = (*srcLineUV) / 255.0f - 0.5f;
+                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
+
+                                    float q = 1.164383561643836 * (y - 0.0625);
+
+                                    float  r = q + 1.596026785714286 * v;
+                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
+                                    float  b = q + 2.017232142857143 * u;
+
+
+                                    px.r = Clamp2Byte(r * 255);
+                                    px.g = Clamp2Byte(g * 255);
+                                    px.b = Clamp2Byte(b * 255);
+
+                                    px.a = *(ya + A);
+                                    p.setPixel(rgba, px);
+                                }
+
+                                ya += dstYA.pitch;
+                                rgba += dest.pitch;
+
+                                {
+                                    float y = (*ya) / 255.0f;
+                                    float v = (*srcLineUV) / 255.0f - 0.5f;
+                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
+
+                                    float q = 1.164383561643836 * (y - 0.0625);
+
+                                    float  r = q + 1.596026785714286 * v;
+                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
+                                    float  b = q + 2.017232142857143 * u;
+
+
+                                    px.r = Clamp2Byte(r * 255);
+                                    px.g = Clamp2Byte(g * 255);
+                                    px.b = Clamp2Byte(b * 255);
+
+                                    px.a = *(ya + A);
+                                    p.setPixel(rgba, px);
+                                }
+
+                                ya += 2;
+                                rgba += 4;
+
+                                {
+                                    float y = (*ya) / 255.0f;
+                                    float v = (*srcLineUV) / 255.0f - 0.5f;
+                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
+
+                                    float q = 1.164383561643836 * (y - 0.0625);
+
+                                    float  r = q + 1.596026785714286 * v;
+                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
+                                    float  b = q + 2.017232142857143 * u;
+
+
+                                    px.r = Clamp2Byte(r * 255);
+                                    px.g = Clamp2Byte(g * 255);
+                                    px.b = Clamp2Byte(b * 255);
+
+                                    px.a = *(ya + A);
+                                    p.setPixel(rgba, px);
+                                }
 
                                 destLineRGBA += 4 * 2;
                                 srcLineUV += dstUV.bytespp;
