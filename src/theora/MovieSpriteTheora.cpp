@@ -18,7 +18,7 @@
 #include "utils/stringUtils.h"
 #include "res/CreateResourceContext.h"
 
-#define PREMULT_MOVIE 1
+#define PREMULT_MOVIE 0
 
 namespace oxygine
 {
@@ -556,7 +556,7 @@ namespace oxygine
 
 
                         PixelR8G8B8A8 p;
-                        for (int y = 0; y != h; y++)
+                        for (int Y = 0; Y != h; Y++)
                         {
                             const unsigned char* srcLineYA = srcYA;
                             const unsigned char* srcLineUV = srcUV;
@@ -617,8 +617,8 @@ namespace oxygine
                                     p.setPixel(rgba, px);
                                 }
 
-                                ya += dstYA.pitch;
-                                rgba += dest.pitch;
+                                ya += dstYA.pitch - 2;
+                                rgba += dest.pitch - 4;
 
                                 {
                                     float y = (*ya) / 255.0f;
