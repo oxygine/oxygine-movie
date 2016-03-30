@@ -13,6 +13,10 @@
 #include "STDRenderer.h"
 #include "ivorbiscodec.h"
 #include <time.h>
+#include "utils/AtlasTool.h"
+#include "utils/ImageUtils.h"
+#include "utils/stringUtils.h"
+#include "res/CreateResourceContext.h"
 
 #define PREMULT_MOVIE 1
 
@@ -22,6 +26,13 @@ namespace oxygine
     const int MSG_STOP = 2;
     const int MSG_RESUME = 3;
     const int MSG_WAIT_FIRST_FRAME = 4;
+
+
+    inline unsigned char Clamp2Byte(int n)
+    {
+        n &= -(n >= 0);
+        return n | ((255 - n) >> 31);
+    }
 
     using namespace std;
 
@@ -139,9 +150,13 @@ namespace oxygine
 
     typedef map<int, TheoraOggStream*> StreamMap;
 
-    class OggDecoder
+    class OggDecoderBase
     {
     public:
+        OggDecoderBase(): mGranulepos(0),
+            _videoStream(0),
+            _audioStream(0) {}
+
         StreamMap mStreams;
         TheoraOggStream* _audioStream;
         TheoraOggStream* _videoStream;
@@ -151,57 +166,19 @@ namespace oxygine
         ogg_int64_t  mGranulepos;
 
 
-        Mutex& _mutex;
-        MemoryTexture& _surfaceUV;
-        MemoryTexture& _surfaceYA;
+        void initStreams(file::handle h);
 
-        ThreadMessages& _msg;
-        bool _updated;
-
-
-        Point _frameSize;
-        //Point _picSize;
-        Rect _pictureRect;
-
-        bool& _looped;
-        bool _hasAlpha;
-        bool _skipNextFrame;
-
-
-    public:
-        OggDecoder(MemoryTexture& uv, MemoryTexture& ya, Mutex& mt, ThreadMessages& msg, bool& looped, bool hasAlpha) :
-            _videoStream(0),
-            _audioStream(0),
-            _surfaceUV(uv), _surfaceYA(ya), _mutex(mt), _looped(looped),
-            mGranulepos(0),
-            _pictureRect(0, 0, 0, 0),
-            _frameSize(0, 0),
-            _msg(msg),
-            _updated(false),
-            _hasAlpha(hasAlpha),
-            _skipNextFrame(false)
-        {
-        }
-
-        ~OggDecoder()
-        {
-        }
-
-        void init(file::handle);
-        bool play(file::handle);
-
-
-    private:
         bool handle_theora_header(TheoraOggStream* stream, ogg_packet* packet);
         bool handle_vorbis_header(TheoraOggStream* stream, ogg_packet* packet);
         void read_headers(file::handle, ogg_sync_state* state);
 
         bool read_page(file::handle, ogg_sync_state* state, ogg_page* page);
         bool read_packet(file::handle, ogg_sync_state* state, TheoraOggStream* stream, ogg_packet* packet);
-        bool handle_theora_data(TheoraOggStream* stream, ogg_packet* packet);
     };
 
-    bool OggDecoder::read_page(file::handle stream, ogg_sync_state* state, ogg_page* page)
+
+
+    bool OggDecoderBase::read_page(file::handle stream, ogg_sync_state* state, ogg_page* page)
     {
         int ret = 0;
 
@@ -236,7 +213,7 @@ namespace oxygine
         return true;
     }
 
-    bool OggDecoder::read_packet(file::handle is, ogg_sync_state* state, TheoraOggStream* stream, ogg_packet* packet)
+    bool OggDecoderBase::read_packet(file::handle is, ogg_sync_state* state, TheoraOggStream* stream, ogg_packet* packet)
     {
         if (!is)
             return false;
@@ -263,7 +240,7 @@ namespace oxygine
         return true;
     }
 
-    void OggDecoder::read_headers(file::handle stream, ogg_sync_state* state)
+    void OggDecoderBase::read_headers(file::handle stream, ogg_sync_state* state)
     {
         ogg_page page;
 
@@ -316,7 +293,8 @@ namespace oxygine
         }
     }
 
-    void OggDecoder::init(file::handle h)
+
+    void OggDecoderBase::initStreams(file::handle h)
     {
         int ret = ogg_sync_init(&_syncState);
         OX_ASSERT(ret == 0);
@@ -347,12 +325,399 @@ namespace oxygine
                 stream->mActive = false;
         }
 
-        //assert(audio);
-
         if (video)
-        {
             _videoStream = video;
+        if (audio)
+            _audioStream = audio;
+    }
 
+    bool OggDecoderBase::handle_theora_header(TheoraOggStream* stream, ogg_packet* packet)
+    {
+        int ret = th_decode_headerin(&stream->mTheora.mInfo,
+                                     &stream->mTheora.mComment,
+                                     &stream->mTheora.mSetup,
+                                     packet);
+        if (ret == TH_ENOTFORMAT)
+            return false; // Not a theora header
+
+        if (ret > 0)
+        {
+            // This is a theora header packet
+            stream->mType = TYPE_THEORA;
+            return false;
+        }
+
+        // Any other return value is treated as a fatal error
+        OX_ASSERT(ret == 0);
+
+        // This is not a header packet. It is the first
+        // video data packet.
+        return true;
+    }
+
+
+
+    class ResAnimTheoraPacker
+    {
+    public:
+        Atlas2 _atlas;
+        spMemoryTexture _mt;
+        spNativeTexture _native;
+        ResAnim* rs;
+
+        void next_atlas()
+        {
+            if (_mt)
+            {
+                CreateTextureTask t;
+                t.src = _mt;
+                t.dest = _native;
+                LoadResourcesContext::get()->createTexture(t);
+            }
+
+            _mt = new MemoryTexture;
+            _mt->init(2048, 2048, TF_R8G8B8A8);
+            _atlas.init(_mt->getWidth(), _mt->getHeight());
+
+            _native = IVideoDriver::instance->createTexture();
+        }
+
+        void abc(const string& name)
+        {
+            rs = new ResAnim;
+
+            animationFrames frames;
+
+            file::handle h = file::open(name.c_str(), "rb");
+
+            OggDecoderBase dec;
+            dec.initStreams(h);
+
+
+
+            TheoraOggStream* video = dec._videoStream;
+
+            TheoraOggStream* baseStream = video;
+
+            th_decode_ctl(video->mTheora.mCtx, TH_DECCTL_SET_GRANPOS, &dec.mGranulepos, sizeof(dec.mGranulepos));
+            int ret = 0;
+
+            unsigned int time = getTimeMS();
+            unsigned int timeOffset = 0;
+
+
+
+            unsigned int ps = file::tell(h);
+
+            // Read audio packets, sending audio data to the sound hardware.
+            // When it's time to display a frame, decode the frame and display it.
+            ogg_packet packet;
+
+            float framerate = float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator);
+            int slpTime = static_cast<int>((1.0f / framerate) * 1000) / 2;
+
+
+            const th_info& ti = video->mTheora.mInfo;
+
+            bool end = false;
+            while (!end)
+            {
+                bool ok = dec.read_packet(h, &dec._syncState, baseStream, &packet);
+                if (!ok)
+                    break;
+
+                if (video)
+                {
+                    timeMS video_time = th_granule_time(video->mTheora.mCtx, dec.mGranulepos) * 1000;
+
+
+
+                    // The granulepos for a packet gives the time of the end of the
+                    // display interval of the frame in the packet.  We keep the
+                    // granulepos of the frame we've decoded and use this to know the
+                    // time when to display the next frame.
+                    int ret = th_decode_packetin(baseStream->mTheora.mCtx,
+                                                 &packet,
+                                                 &dec.mGranulepos);
+                    if (ret >= 0)
+                    {
+                        if (ret == TH_DUPFRAME)
+                            continue;
+
+
+
+                        th_ycbcr_buffer buffer;
+                        ret = th_decode_ycbcr_out(baseStream->mTheora.mCtx, buffer);
+                        OX_ASSERT(ret == 0);
+
+
+                        MemoryTexture memYA;
+                        memYA.init(ti.frame_width, ti.frame_height / 2, TF_A8L8);
+
+                        ImageData dstYA = memYA.lock();
+                        unsigned char* destYA = dstYA.data;
+
+                        const unsigned char* srcY = buffer[0].data + ti.pic_y * buffer[0].stride;
+
+                        int stride = buffer[0].stride;
+                        int w = buffer[0].width;
+                        int h = buffer[0].height;
+
+
+
+
+                        Rect bounds = Rect::invalidated();
+
+                        if (true)
+                        {
+                            h /= 2;
+                            const unsigned char* srcA = buffer[0].data + h * buffer[0].stride;
+
+                            for (int y = 0; y != h; y++)
+                            {
+                                const unsigned char* srcLineA = srcA;
+                                const unsigned char* srcLineY = srcY;
+                                unsigned char* destLineYA = destYA;
+
+                                for (int x = 0; x != w; x++)
+                                {
+                                    *destLineYA++ = *srcLineY++;
+                                    unsigned char a = *srcLineA++;
+                                    int v = (a - 16) * 255 / 219;
+                                    *destLineYA++ = Clamp2Byte(v);
+
+                                    if (a)
+                                    {
+                                        bounds.unite(Rect(x, y, 1, 1));
+                                    }
+                                }
+                                srcY += stride;
+                                srcA += stride;
+
+                                destYA += dstYA.pitch;
+                            }
+                        }
+
+
+                        MemoryTexture memUV;
+                        memUV.init(ti.frame_width / 2, ti.frame_height / 4, TF_A8L8);
+
+                        ImageData dstUV = memUV.lock();
+                        unsigned char* destUV = dstUV.data;
+
+                        const unsigned char* srcU = buffer[2].data + ti.pic_y / 2 * buffer[2].stride;
+                        const unsigned char* srcV = buffer[1].data + ti.pic_y / 2 * buffer[1].stride;
+
+                        stride = buffer[1].stride;
+                        w = buffer[1].width;
+                        h = buffer[1].height;
+
+                        if (true)
+                            h /= 2;
+
+                        for (int y = 0; y != h; y++)
+                        {
+                            const unsigned char* srcLineU = srcU;
+                            const unsigned char* srcLineV = srcV;
+                            unsigned char* destLineUV = destUV;
+
+                            for (int x = 0; x != w; x++)
+                            {
+                                *destLineUV++ = *srcLineU++;
+                                *destLineUV++ = *srcLineV++;
+                            }
+                            srcU += stride;
+                            srcV += stride;
+                            destUV += dstUV.pitch;
+                        }
+
+
+
+
+                        MemoryTexture res;
+                        res.init(ti.frame_width, ti.frame_height / 2, TF_R8G8B8A8);
+
+                        ImageData dest = res.lock();
+
+                        unsigned char* destRGBA = dest.data;
+
+                        const unsigned char* srcYA = dstYA.data;
+                        const unsigned char* srcUV = dstUV.data;
+
+
+
+                        PixelR8G8B8A8 p;
+                        for (int y = 0; y != h; y++)
+                        {
+                            const unsigned char* srcLineYA = srcYA;
+                            const unsigned char* srcLineUV = srcUV;
+                            unsigned char*       destLineRGBA = destRGBA;
+
+                            for (int x = 0; x != w; x++)
+                            {
+                                Pixel px;
+                                px.r = 255;
+                                px.g = 255;
+                                px.b = 255;
+
+
+                                float y = (*srcLineYA) / 255.0f;
+                                float v = (*srcLineUV)       / 255.0f - 0.5f;
+                                float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
+
+                                float q = 1.164383561643836 * (y - 0.0625);
+
+
+
+                                float  r = q                         + 1.596026785714286 * v;
+                                float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
+                                float  b = q + 2.017232142857143 * u;
+
+
+                                px.r = Clamp2Byte(r * 255);
+                                px.g = Clamp2Byte(g * 255);
+                                px.b = Clamp2Byte(b * 255);
+
+
+
+                                px.a = *(srcLineYA + 1);
+                                p.setPixel(destLineRGBA, px);
+                                px.a = *(srcLineYA + 1 + 2);
+                                p.setPixel(destLineRGBA + 4, px);
+                                px.a = *(srcLineYA + 1 + dstYA.pitch);
+                                p.setPixel(destLineRGBA + dest.pitch, px);
+                                px.a = *(srcLineYA + 1 + dstYA.pitch + 2);
+                                p.setPixel(destLineRGBA + dest.pitch + 4, px);
+
+
+                                destLineRGBA += 4 * 2;
+                                srcLineUV += dstUV.bytespp;
+                                srcLineYA += dstYA.bytespp * 2;
+                            }
+
+
+                            destRGBA += dest.pitch;
+                            destRGBA += dest.pitch;
+
+                            srcYA += dstYA.pitch;
+                            srcYA += dstYA.pitch;
+
+                            srcUV += dstUV.pitch;
+                        }
+
+
+                        Rect rc;
+                        if (!_atlas.add(_mt.get(), dest, rc, Point(0, 0)))
+                        {
+                            next_atlas();
+                            _atlas.add(_mt.get(), dest, rc, Point(0, 0));
+                        }
+
+                        AnimationFrame frame;
+                        Diffuse df;
+                        df.base = _native;
+                        df.premultiplied = true;
+                        RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
+                        RectF destRectF = RectF(0, 0, res.getWidth(), res.getHeight());
+                        frame.init(0, df, srcRectF, destRectF, Vector2(res.getWidth(), res.getHeight()));
+
+                        frames.push_back(frame);
+                    }
+                }
+            }
+
+            next_atlas();
+
+
+
+            rs->init(frames, frames.size());
+
+
+            /*
+            char nme[255];
+            static int i = 0;
+            safe_sprintf(nme, "im/im%05d.png", i);
+            ++i;
+            //saveImage(_mt.lock(), nme);
+            int q = 0;
+
+            */
+
+
+
+
+            ret = ogg_sync_clear(&dec._syncState);
+
+            file::close(h);
+        }
+    };
+
+    ResAnim* createResAnimFromMovie(const string& name)
+    {
+        ResAnimTheoraPacker p;
+        p.abc(name);
+        return p.rs;
+    }
+
+    class OggDecoder: public OggDecoderBase
+    {
+    public:
+
+
+        Mutex& _mutex;
+        MemoryTexture& _surfaceUV;
+        MemoryTexture& _surfaceYA;
+
+        ThreadMessages& _msg;
+        bool _updated;
+
+
+        Point _frameSize;
+        //Point _picSize;
+        Rect _pictureRect;
+
+        bool& _looped;
+        bool _hasAlpha;
+        bool _skipNextFrame;
+        bool _allowSkipFrames;
+
+
+    public:
+        OggDecoder(MemoryTexture& uv, MemoryTexture& ya, Mutex& mt, ThreadMessages& msg, bool& looped, bool hasAlpha, bool skipFrames) :
+            _surfaceUV(uv), _surfaceYA(ya), _mutex(mt), _looped(looped),
+            _pictureRect(0, 0, 0, 0),
+            _frameSize(0, 0),
+            _msg(msg),
+            _updated(false),
+            _allowSkipFrames(skipFrames),
+            _hasAlpha(hasAlpha),
+            _skipNextFrame(false)
+        {
+        }
+
+        ~OggDecoder()
+        {
+        }
+
+        void init(file::handle);
+        bool play(file::handle);
+
+    protected:
+        void frameUpdated();
+        virtual void _frameUpdated() {}
+
+    private:
+        bool handle_theora_data(TheoraOggStream* stream, ogg_packet* packet);
+    };
+
+
+    void OggDecoder::init(file::handle h)
+    {
+        initStreams(h);
+
+
+        if (_videoStream)
+        {
             const th_info& ti = _videoStream->mTheora.mInfo;
 
             _frameSize.x = ti.frame_width;
@@ -366,19 +731,11 @@ namespace oxygine
                 _frameSize.y /= 2;
             }
         }
+    }
 
-        if (audio)
-        {
-            /*
-            cout << "Audio stream is "
-                << audio->mSerial << " "
-                << audio->mVorbis.mInfo.channels << " channels "
-                << audio->mVorbis.mInfo.rate << "KHz"
-                << endl;
-                */
-        }
-
-        _audioStream = audio;
+    void OggDecoder::frameUpdated()
+    {
+        _updated = true;
     }
 
     bool OggDecoder::play(file::handle is)
@@ -466,8 +823,9 @@ namespace oxygine
             {
                 ogg_int64_t position = 0;
                 timeMS video_time = th_granule_time(video->mTheora.mCtx, mGranulepos) * 1000;
-
+                //log::messageln("%d - %d", video_time, mGranulepos);
                 int tm = 0;
+
                 while (true)
                 {
                     tm = getTimeMS() + timeOffset - time;
@@ -480,13 +838,14 @@ namespace oxygine
 
                 if (handle_theora_data(video, &packet))
                 {
+                    //log::messageln("frame");
                     if (first_frame_reply)
                     {
                         _msg.reply(0);
                     }
                     video_time = th_granule_time(video->mTheora.mCtx, mGranulepos) * 1000;
                     if (tm > video_time)
-                        _skipNextFrame = true;
+                        _skipNextFrame = _allowSkipFrames;
                 }
             }
         }
@@ -496,35 +855,7 @@ namespace oxygine
         return end;
     }
 
-    bool OggDecoder::handle_theora_header(TheoraOggStream* stream, ogg_packet* packet)
-    {
-        int ret = th_decode_headerin(&stream->mTheora.mInfo,
-                                     &stream->mTheora.mComment,
-                                     &stream->mTheora.mSetup,
-                                     packet);
-        if (ret == TH_ENOTFORMAT)
-            return false; // Not a theora header
 
-        if (ret > 0)
-        {
-            // This is a theora header packet
-            stream->mType = TYPE_THEORA;
-            return false;
-        }
-
-        // Any other return value is treated as a fatal error
-        OX_ASSERT(ret == 0);
-
-        // This is not a header packet. It is the first
-        // video data packet.
-        return true;
-    }
-
-    inline unsigned char Clamp2Byte(int n)
-    {
-        n &= -(n >= 0);
-        return n | ((255 - n) >> 31);
-    }
 
     bool OggDecoder::handle_theora_data(TheoraOggStream* stream, ogg_packet* packet)
     {
@@ -643,16 +974,19 @@ namespace oxygine
                 destUV += dstUV.pitch;
             }
 
-            //saveImage()
-            _updated = true;
+            frameUpdated();
 
             return true;
+        }
+        else
+        {
+            //log::messageln("skip");
         }
 
         return false;
     }
 
-    bool OggDecoder::handle_vorbis_header(TheoraOggStream* stream, ogg_packet* packet)
+    bool OggDecoderBase::handle_vorbis_header(TheoraOggStream* stream, ogg_packet* packet)
     {
         int ret = vorbis_synthesis_headerin(&stream->mVorbis.mInfo,
                                             &stream->mVorbis.mComment,
@@ -712,9 +1046,9 @@ namespace oxygine
 
         base +=
 #if PREMULT_MOVIE
-			"return color * ya.a;\n"			
+            "return color * ya.a;\n"
 #else
-			"return vec4(color.rgb, ya.a);\n"
+            "return vec4(color.rgb, ya.a);\n"
 #endif
             "}\n"
             "#endif\n";
@@ -759,7 +1093,8 @@ namespace oxygine
         OX_ASSERT(_decoder == 0);
 
         _file = file::open(_fname.c_str(), "rb");
-        _decoder = new OggDecoder(_mtUV, _mtYA, _mutex, _msg, _looped, _hasAlphaChannel);
+
+        _decoder = new OggDecoder(_mtUV, _mtYA, _mutex, _msg, _looped, _hasAlphaChannel, _skipFrames);
         _decoder->init(_file);
         _movieRect = _decoder->_pictureRect;
         _bufferSize = _decoder->_frameSize;

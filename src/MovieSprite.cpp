@@ -19,6 +19,7 @@ namespace oxygine
         _movieRect(0, 0, 0, 0),
         _initialized(false), _volume(100), _paused(false), _playing(false),
         _looped(false),
+        _skipFrames(true),
         _ready(false),
         _hasAlphaChannel(false)
     {
@@ -147,6 +148,11 @@ namespace oxygine
     void MovieSprite::setLooped(bool l)
     {
         _looped = l;
+    }
+
+    void MovieSprite::setSkipFrames(bool skip)
+    {
+        _skipFrames = skip;
     }
 
     Point MovieSprite::getMovieSize() const

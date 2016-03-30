@@ -22,6 +22,7 @@ namespace oxygine
         2.  Or you will need to define the environment variable VLC_PLUGIN_PATH pointing to VLC modules located in vlc-src/modules.
 
     */
+
     class MovieSprite: public Sprite
     {
     public:
@@ -59,6 +60,9 @@ namespace oxygine
         void setVolume(int v);
 
         void setLooped(bool);
+
+        /**skip frames if slow performance, default is True*/
+        void setSkipFrames(bool skip);
 
         /**Returns original movie dimension*/
         Point getMovieSize() const;
@@ -101,6 +105,7 @@ namespace oxygine
 
         bool _dirty;
         bool _ready;
+        bool _skipFrames;
         int _volume;
 
         bool _paused;
@@ -118,4 +123,8 @@ namespace oxygine
 
     DECLARE_SMART(MovieTween, spMovieTween);
     spMovieTween createMovieTween(const std::string& name, bool alpha = true);
+
+
+    class ResAnim;
+    ResAnim* createResAnimFromMovie(const std::string& name);
 }

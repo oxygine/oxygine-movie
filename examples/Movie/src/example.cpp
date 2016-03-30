@@ -5,6 +5,7 @@
 #include "TestCommon.h"
 #include "TestStress.h"
 #include "TestConverse.h"
+#include "TestPrerender.h"
 using namespace oxygine;
 
 //it is our resources
@@ -20,8 +21,9 @@ public:
         addButton("common", "Common");
         addButton("stress", "Stress");
         addButton("check_converse", "Color conversion");
+        addButton("prerender", "prerender");
 
-        //  clicked("stress");
+        //clicked("prerender");
     }
     void clicked(string id)
     {
@@ -41,6 +43,12 @@ public:
         {
             setVisible(false);
             getStage()->addChild(new TestConverse);
+        }
+
+        if (id == "prerender")
+        {
+            setVisible(false);
+            getStage()->addChild(new TestPrerender);
         }
     }
 };

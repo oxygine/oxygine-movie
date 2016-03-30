@@ -37,6 +37,9 @@
     <ClInclude Include="..\src\TestConverse.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\TestPrerender.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\proj.win32\oxygine-movie.vcxproj.filters" />

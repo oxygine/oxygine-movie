@@ -56,7 +56,6 @@ set(OXYGINEMOVIE_INCLUDE_DIRS ${OXYGINEMOVIE_INCLUDE_DIRS}
 
 set(OXYGINEMOVIE_LIBS
 	oxygine-movie
-	vlc
   tremor
   -logg
 	)
