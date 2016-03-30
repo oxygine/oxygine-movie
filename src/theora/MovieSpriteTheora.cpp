@@ -14,6 +14,8 @@
 #include "ivorbiscodec.h"
 #include <time.h>
 
+#define PREMULT_MOVIE 1
+
 namespace oxygine
 {
     const int MSG_PAUSE = 1;
@@ -709,7 +711,11 @@ namespace oxygine
                 "lowp vec4 color = vec4(r, g, b, 1.0);\n";
 
         base +=
-            "return color * ya.a;\n"
+#if PREMULT_MOVIE
+			"return color * ya.a;\n"			
+#else
+			"return vec4(color.rgb, ya.a);\n"
+#endif
             "}\n"
             "#endif\n";
 
