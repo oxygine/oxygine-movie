@@ -10,11 +10,10 @@ public:
 
     TestPrerender()
     {
-        //ResAnim* rs = createResAnimFromMovie("movies/t2p.ogv");
-        ResAnim* rs = createResAnimFromMovie("movies/out.ogv");
+        ResAnim* rs = createResAnimFromMovie("movies/t2p.ogv");
 
         sp = new Sprite();
-        sp->addTween(TweenAnim(rs), 2000, 1);
+        sp->addTween(TweenAnim(rs), 2000, -1);
         sp->setPosition(175.0f, 176.0f);
         sp->attachTo(content);
 

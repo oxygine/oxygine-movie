@@ -245,7 +245,7 @@ namespace oxygine
     void MovieSprite::asyncDone()
     {
         addRef();
-        core::getMainThreadMessages().postCallback([ = ]()
+        core::getMainThreadDispatcher().postCallback([ = ]()
         {
             _playing = false;
 

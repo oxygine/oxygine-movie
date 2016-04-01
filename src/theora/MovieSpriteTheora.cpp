@@ -382,6 +382,27 @@ namespace oxygine
             _native = IVideoDriver::instance->createTexture();
         }
 
+        const int A = 1;
+        inline void makePixel(Pixel& px, const unsigned char* ya, const unsigned char* srcLineUV)
+        {
+            float y = (*ya) / 255.0f;
+            float v = (*srcLineUV) / 255.0f - 0.5f;
+            float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
+
+            float q = 1.164383561643836 * (y - 0.0625);
+
+            float  r = q + 1.596026785714286 * v;
+            float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
+            float  b = q + 2.017232142857143 * u;
+
+
+            px.r = Clamp2Byte(r * 255);
+            px.g = Clamp2Byte(g * 255);
+            px.b = Clamp2Byte(b * 255);
+
+            px.a = *(ya + A);
+        }
+
         void abc(const string& name)
         {
             rs = new ResAnim;
@@ -460,19 +481,10 @@ namespace oxygine
                         const unsigned char* srcY = buffer[0].data + ti.pic_y * buffer[0].stride;
 
                         int stride = buffer[0].stride;
-                        int w = buffer[0].width;
-                        int h = buffer[0].height;
-
-
-                        /*
-                        const unsigned char* srcY = buffer[0].data + ti.pic_y * buffer[0].stride + ti.pic_x;
-
-                        int stride = buffer[0].stride;
                         int w = ti.pic_width;
                         int h = ti.pic_height;
-                        */
 
-
+                        int fw = ti.frame_width;
 
 
                         Rect bounds = Rect::invalidated();
@@ -480,7 +492,7 @@ namespace oxygine
                         if (true)
                         {
                             h /= 2;
-                            const unsigned char* srcA = buffer[0].data + h * buffer[0].stride;
+                            const unsigned char* srcA = srcY + ti.pic_height / 2 * buffer[0].stride;
 
                             for (int y = 0; y != h; y++)
                             {
@@ -488,7 +500,7 @@ namespace oxygine
                                 const unsigned char* srcLineY = srcY;
                                 unsigned char* destLineYA = destYA;
 
-                                for (int x = 0; x != w; x++)
+                                for (int x = 0; x !=  fw; x++)
                                 {
                                     *destLineYA++ = *srcLineY++;
                                     unsigned char a = *srcLineA++;
@@ -510,6 +522,7 @@ namespace oxygine
 
                         MemoryTexture memUV;
                         memUV.init(ti.frame_width / 2, ti.frame_height / 4, TF_A8L8);
+                        memUV.fill_zero();
 
                         ImageData dstUV = memUV.lock();
                         unsigned char* destUV = dstUV.data;
@@ -566,102 +579,32 @@ namespace oxygine
                             {
                                 Pixel px;
 
-                                const int A = 1;
-
                                 const unsigned char* ya = srcLineYA;
                                 unsigned char* rgba = destLineRGBA;
 
 
-                                {
-                                    float y = (*ya) / 255.0f;
-                                    float v = (*srcLineUV) / 255.0f - 0.5f;
-                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
-
-                                    float q = 1.164383561643836 * (y - 0.0625);
-
-                                    float  r = q + 1.596026785714286 * v;
-                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
-                                    float  b = q + 2.017232142857143 * u;
-
-
-                                    px.r = Clamp2Byte(r * 255);
-                                    px.g = Clamp2Byte(g * 255);
-                                    px.b = Clamp2Byte(b * 255);
-
-                                    px.a = *(ya + A);
-                                    p.setPixel(rgba, px);
-                                }
-
+                                makePixel(px, ya, srcLineUV);
+                                p.setPixel(rgba, px);
 
                                 ya += 2;
                                 rgba += 4;
 
 
-                                {
-                                    float y = (*ya) / 255.0f;
-                                    float v = (*srcLineUV) / 255.0f - 0.5f;
-                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
-
-                                    float q = 1.164383561643836 * (y - 0.0625);
-
-                                    float  r = q + 1.596026785714286 * v;
-                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
-                                    float  b = q + 2.017232142857143 * u;
-
-
-                                    px.r = Clamp2Byte(r * 255);
-                                    px.g = Clamp2Byte(g * 255);
-                                    px.b = Clamp2Byte(b * 255);
-
-                                    px.a = *(ya + A);
-                                    p.setPixel(rgba, px);
-                                }
+                                makePixel(px, ya, srcLineUV);
+                                p.setPixel(rgba, px);
 
                                 ya += dstYA.pitch - 2;
                                 rgba += dest.pitch - 4;
 
-                                {
-                                    float y = (*ya) / 255.0f;
-                                    float v = (*srcLineUV) / 255.0f - 0.5f;
-                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
 
-                                    float q = 1.164383561643836 * (y - 0.0625);
-
-                                    float  r = q + 1.596026785714286 * v;
-                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
-                                    float  b = q + 2.017232142857143 * u;
-
-
-                                    px.r = Clamp2Byte(r * 255);
-                                    px.g = Clamp2Byte(g * 255);
-                                    px.b = Clamp2Byte(b * 255);
-
-                                    px.a = *(ya + A);
-                                    p.setPixel(rgba, px);
-                                }
+                                makePixel(px, ya, srcLineUV);
+                                p.setPixel(rgba, px);
 
                                 ya += 2;
                                 rgba += 4;
 
-                                {
-                                    float y = (*ya) / 255.0f;
-                                    float v = (*srcLineUV) / 255.0f - 0.5f;
-                                    float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
-
-                                    float q = 1.164383561643836 * (y - 0.0625);
-
-                                    float  r = q + 1.596026785714286 * v;
-                                    float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
-                                    float  b = q + 2.017232142857143 * u;
-
-
-                                    px.r = Clamp2Byte(r * 255);
-                                    px.g = Clamp2Byte(g * 255);
-                                    px.b = Clamp2Byte(b * 255);
-
-                                    px.a = *(ya + A);
-                                    p.setPixel(rgba, px);
-                                }
+                                makePixel(px, ya, srcLineUV);
+                                p.setPixel(rgba, px);
 
                                 destLineRGBA += 4 * 2;
                                 srcLineUV += dstUV.bytespp;
@@ -679,7 +622,50 @@ namespace oxygine
                         }
 
 
+
                         Rect rc;
+                        dest = dest.getRect(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
+
+                        /*
+                        {
+                            char nme[255];
+                            static int i = 0;
+                            safe_sprintf(nme, "im/imnc%05d.png", i);
+                            ++i;
+                            saveImage(dest, nme);
+                            int q = 0;
+                        }
+
+                        {
+                            char nme[255];
+                            static int i = 0;
+                            safe_sprintf(nme, "im/im%05d.png", i);
+                            ++i;
+                            saveImage(dest, nme);
+                            int q = 0;
+                        }
+
+                        {
+                            char nme[255];
+                            static int i = 0;
+                            safe_sprintf(nme, "im/ya%05d.png", i);
+                            ++i;
+                            saveImage(memYA.lock(), nme);
+                            int q = 0;
+                        }
+
+
+                        {
+                            char nme[255];
+                            static int i = 0;
+                            safe_sprintf(nme, "im/uv%05d.png", i);
+                            ++i;
+                            saveImage(memUV.lock(), nme);
+                            int q = 0;
+                        }
+                        */
+
+
                         if (!_atlas.add(_mt.get(), dest, rc, Point(0, 0)))
                         {
                             next_atlas();
@@ -691,8 +677,8 @@ namespace oxygine
                         df.base = _native;
                         df.premultiplied = true;
                         RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
-                        RectF destRectF = RectF(0, 0, res.getWidth(), res.getHeight());
-                        frame.init(0, df, srcRectF, destRectF, Vector2(res.getWidth(), res.getHeight()));
+                        RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
+                        frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2));
 
                         frames.push_back(frame);
                     }
@@ -979,7 +965,7 @@ namespace oxygine
             if (_hasAlpha)
             {
                 h /= 2;
-                const unsigned char* srcA = buffer[0].data + h * buffer[0].stride;
+                const unsigned char* srcA = srcY + ti.pic_height / 2 * buffer[0].stride;
 
                 for (int y = 0; y != h; y++)
                 {
