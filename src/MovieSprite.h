@@ -126,5 +126,5 @@ namespace oxygine
 
 
     class ResAnim;
-    ResAnim* createResAnimFromMovie(const std::string& name);
+    ResAnim* createResAnimFromMovie(const std::string& name, const Point& atlasSize);
 }

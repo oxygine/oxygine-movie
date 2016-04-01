@@ -361,6 +361,7 @@ namespace oxygine
     {
     public:
         Atlas2 _atlas;
+        Point _atlasSize;
         spMemoryTexture _mt;
         spNativeTexture _native;
         ResAnim* rs;
@@ -376,7 +377,7 @@ namespace oxygine
             }
 
             _mt = new MemoryTexture;
-            _mt->init(2048, 2048, TF_R8G8B8A8);
+            _mt->init(_atlasSize.x, _atlasSize.y, TF_R8G8B8A8);
             _atlas.init(_mt->getWidth(), _mt->getHeight());
 
             _native = IVideoDriver::instance->createTexture();
@@ -711,9 +712,10 @@ namespace oxygine
         }
     };
 
-    ResAnim* createResAnimFromMovie(const string& name)
+    ResAnim* createResAnimFromMovie(const string& name, const Point& atlasSize)
     {
         ResAnimTheoraPacker p;
+        p._atlasSize = atlasSize;
         p.abc(name);
         return p.rs;
     }
