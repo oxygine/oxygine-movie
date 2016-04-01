@@ -357,6 +357,8 @@ namespace oxygine
 
 
 
+    const int A_OFFSET = 1;
+
     class ResAnimTheoraPacker
     {
     public:
@@ -383,7 +385,6 @@ namespace oxygine
             _native = IVideoDriver::instance->createTexture();
         }
 
-        const int A = 1;
         inline void makePixel(Pixel& px, const unsigned char* ya, const unsigned char* srcLineUV)
         {
             float y = (*ya) / 255.0f;
@@ -401,7 +402,7 @@ namespace oxygine
             px.g = Clamp2Byte(g * 255);
             px.b = Clamp2Byte(b * 255);
 
-            px.a = *(ya + A);
+            px.a = *(ya + A_OFFSET);
         }
 
         void abc(const string& name)
