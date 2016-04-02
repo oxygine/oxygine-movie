@@ -17,6 +17,7 @@
 #include "utils/ImageUtils.h"
 #include "utils/stringUtils.h"
 #include "res/CreateResourceContext.h"
+//#include "core/gl/oxgl.h"
 
 #define PREMULT_MOVIE 0
 
