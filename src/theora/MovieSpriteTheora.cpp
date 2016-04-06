@@ -360,6 +360,28 @@ namespace oxygine
 
     const int A_OFFSET = 1;
 
+
+
+    inline void makePixel(Pixel& px, const unsigned char* ya, const unsigned char* srcLineUV)
+    {
+        float y = (*ya) / 255.0f;
+        float v = (*srcLineUV) / 255.0f - 0.5f;
+        float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
+
+        float q = 1.164383561643836f * (y - 0.0625f);
+
+        float  r = q + 1.596026785714286f * v;
+        float  g = q - 0.391762290094916f * u - 0.812967647237770f * v;
+        float  b = q + 2.017232142857143f * u;
+
+
+        px.r = Clamp2Byte(int(r * 255));
+        px.g = Clamp2Byte(int(g * 255));
+        px.b = Clamp2Byte(int(b * 255));
+
+        px.a = *(ya + A_OFFSET);
+    }
+
     class ResAnimTheoraPacker
     {
     public:
@@ -393,26 +415,6 @@ namespace oxygine
             _atlas.init(_mt->getWidth(), _mt->getHeight());
 
             _native = IVideoDriver::instance->createTexture();
-        }
-
-        inline void makePixel(Pixel& px, const unsigned char* ya, const unsigned char* srcLineUV)
-        {
-            float y = (*ya) / 255.0f;
-            float v = (*srcLineUV) / 255.0f - 0.5f;
-            float u = (*(srcLineUV + 1)) / 255.0f - 0.5f;
-
-            float q = 1.164383561643836 * (y - 0.0625);
-
-            float  r = q + 1.596026785714286 * v;
-            float  g = q - 0.391762290094916 * u - 0.812967647237770 * v;
-            float  b = q + 2.017232142857143 * u;
-
-
-            px.r = Clamp2Byte(r * 255);
-            px.g = Clamp2Byte(g * 255);
-            px.b = Clamp2Byte(b * 255);
-
-            px.a = *(ya + A_OFFSET);
         }
 
         void abc(const string& name)
@@ -461,7 +463,7 @@ namespace oxygine
 
                 if (video)
                 {
-                    timeMS video_time = th_granule_time(video->mTheora.mCtx, dec.mGranulepos) * 1000;
+                    timeMS video_time = timeMS(th_granule_time(video->mTheora.mCtx, dec.mGranulepos) * 1000);
 
 
 
@@ -892,7 +894,7 @@ namespace oxygine
             if (video)
             {
                 ogg_int64_t position = 0;
-                timeMS video_time = th_granule_time(video->mTheora.mCtx, mGranulepos) * 1000;
+                timeMS video_time = timeMS(th_granule_time(video->mTheora.mCtx, mGranulepos) * 1000);
                 //log::messageln("%d - %d", video_time, mGranulepos);
                 int tm = 0;
 
@@ -913,7 +915,7 @@ namespace oxygine
                     {
                         _msg.reply(0);
                     }
-                    video_time = th_granule_time(video->mTheora.mCtx, mGranulepos) * 1000;
+                    video_time = timeMS(th_granule_time(video->mTheora.mCtx, mGranulepos) * 1000);
                     if (tm > video_time)
                         _skipNextFrame = _allowSkipFrames;
                 }
