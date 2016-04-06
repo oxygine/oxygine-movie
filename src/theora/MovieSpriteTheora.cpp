@@ -370,13 +370,22 @@ namespace oxygine
         ResAnim* rs;
 
         void next_atlas()
-        {
+		{
             if (_mt)
             {
                 CreateTextureTask t;
                 t.src = _mt;
                 t.dest = _native;
                 LoadResourcesContext::get()->createTexture(t);
+
+				/*
+				char nme[255];
+				static int i = 0;
+				safe_sprintf(nme, "im/im%05d.png", i);
+				++i;
+				saveImage(_mt->lock(), nme);
+				int q = 0;
+				*/
             }
 
             _mt = new MemoryTexture;
@@ -510,7 +519,7 @@ namespace oxygine
                                     int v = (a - 16) * 255 / 219;
                                     *destLineYA++ = Clamp2Byte(v);
 
-                                    if (a)
+                                    if (v)
                                     {
                                         bounds.unite(Rect(x, y, 1, 1));
                                     }
@@ -627,7 +636,7 @@ namespace oxygine
 
 
                         Rect rc;
-                        dest = dest.getRect(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
+                        //dest = dest.getRect(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
 
                         /*
                         {
@@ -669,11 +678,21 @@ namespace oxygine
                         */
 
 
-                        if (!_atlas.add(_mt.get(), dest, rc, Point(0, 0)))
+						Point offset(2, 2);
+						if (bounds == Rect::invalidated())
+						{
+							bounds = Rect(0, 0, 0, 0);
+						} 
+
+						//bounds.pos.x += ti.pic_x;
+						bounds.clip(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
+						dest = dest.getRect(bounds);
+                        if (!_atlas.add(_mt.get(), dest, rc, offset))
                         {
                             next_atlas();
-                            _atlas.add(_mt.get(), dest, rc, Point(0, 0));
+                            _atlas.add(_mt.get(), dest, rc, offset);
                         }
+						
 
                         AnimationFrame frame;
                         Diffuse df;
@@ -681,6 +700,8 @@ namespace oxygine
                         df.premultiplied = true;
                         RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
                         RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
+						destRectF = bounds.cast<RectF>();
+						
                         frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2));
 
                         frames.push_back(frame);
@@ -693,20 +714,6 @@ namespace oxygine
 
 
             rs->init(frames, frames.size());
-
-
-            /*
-            char nme[255];
-            static int i = 0;
-            safe_sprintf(nme, "im/im%05d.png", i);
-            ++i;
-            //saveImage(_mt.lock(), nme);
-            int q = 0;
-
-            */
-
-
-
 
             ret = ogg_sync_clear(&dec._syncState);
 
