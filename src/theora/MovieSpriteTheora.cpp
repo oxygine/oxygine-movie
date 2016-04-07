@@ -17,6 +17,8 @@
 #include "utils/ImageUtils.h"
 #include "utils/stringUtils.h"
 #include "res/CreateResourceContext.h"
+#include "json/json.h"
+#include "utils/cdecode.h"
 //#include "core/gl/oxgl.h"
 
 #define PREMULT_MOVIE 0
@@ -286,14 +288,14 @@ namespace oxygine
                 headersDone = headersDone || handle_vorbis_header(stream, &packet);
                 if (!headersDone)
                 {
-                    // Consume the packet
+					// Consume the packet
                     ret = ogg_stream_packetout(&stream->mState, &packet);
                     OX_ASSERT(ret == 1);
                 }
             }
         }
     }
-
+	
 
     void OggDecoderBase::initStreams(file::handle h)
     {
@@ -302,6 +304,7 @@ namespace oxygine
 
         // Read headers for all streams
         read_headers(h, &_syncState);
+
 
 
         // Find and initialize the first theora and vorbis
@@ -345,6 +348,7 @@ namespace oxygine
         {
             // This is a theora header packet
             stream->mType = TYPE_THEORA;
+
             return false;
         }
 
@@ -382,353 +386,380 @@ namespace oxygine
         px.a = *(ya + A_OFFSET);
     }
 
-    class ResAnimTheoraPacker
-    {
-    public:
-        Atlas2 _atlas;
-        Point _atlasSize;
-        spMemoryTexture _mt;
-        spNativeTexture _native;
-        ResAnim* rs;
+    
+	ResAnimTheoraPacker::ResAnimTheoraPacker(const Point &atlasSize, TextureFormat tf, bool optBounds):_atlasSize(atlasSize), _tf(tf), _optBounds(optBounds)
+	{
+	}
 
-        void next_atlas()
+	ResAnimTheoraPacker::~ResAnimTheoraPacker()
+	{
+		sync();
+	}
+
+	void ResAnimTheoraPacker::sync()
+	{
+		if (_mt)
 		{
-            if (_mt)
-            {
-                CreateTextureTask t;
-                t.src = _mt;
-                t.dest = _native;
-                LoadResourcesContext::get()->createTexture(t);
+			CreateTextureTask t;
+			t.src = _mt;
+			t.dest = _native;
+			LoadResourcesContext::get()->createTexture(t);
 
-				/*
-				char nme[255];
-				static int i = 0;
-				safe_sprintf(nme, "im/im%05d.png", i);
-				++i;
-				saveImage(_mt->lock(), nme);
-				int q = 0;
-				*/
-            }
 
-            _mt = new MemoryTexture;
-            _mt->init(_atlasSize.x, _atlasSize.y, TF_R8G8B8A8);
-            _atlas.init(_mt->getWidth(), _mt->getHeight());
+			char nme[255];
+			static int i = 0;
+			safe_sprintf(nme, "im%05d.png", i);
+			++i;
+			saveImage(_mt->lock(), nme);
+			int q = 0;
+		}
+	}
 
-            _native = IVideoDriver::instance->createTexture();
-        }
 
-        void abc(const string& name)
+
+    void ResAnimTheoraPacker::next_atlas()
+	{
+		sync();
+
+        _mt = new MemoryTexture;
+        _mt->init(_atlasSize.x, _atlasSize.y, _tf);
+        _atlas.init(_mt->getWidth(), _mt->getHeight());
+
+        _native = IVideoDriver::instance->createTexture();
+    }
+
+    ResAnim* ResAnimTheoraPacker::decode(const string& name)
+    {
+        ResAnim* rs = new ResAnim;
+
+        animationFrames frames;
+
+        file::handle h = file::open(name.c_str(), "rb");
+
+        OggDecoderBase dec;
+        dec.initStreams(h);
+
+		
+		Json::Value js(Json::objectValue);
+		{
+			const char *userData = th_comment_query(&dec._videoStream->mTheora.mComment, "ORGANIZATION", 0);
+			Json::Reader reader;
+			int ln = strlen(userData);
+		
+			base64_decodestate state;
+			base64_init_decodestate(&state);
+			string str;
+			str.resize(ln * 3 / 4);
+			if (ln)
+				base64_decode_block(userData, ln, (char*)&str.front(), &state);
+
+			bool s = reader.parse(str, js);
+		}
+		float sc = js["scale"].asFloat();
+
+
+        TheoraOggStream* video = dec._videoStream;
+
+        TheoraOggStream* baseStream = video;
+
+        th_decode_ctl(video->mTheora.mCtx, TH_DECCTL_SET_GRANPOS, &dec.mGranulepos, sizeof(dec.mGranulepos));
+        int ret = 0;
+
+        unsigned int time = getTimeMS();
+        unsigned int timeOffset = 0;
+
+
+
+        unsigned int ps = file::tell(h);
+
+        // Read audio packets, sending audio data to the sound hardware.
+        // When it's time to display a frame, decode the frame and display it.
+        ogg_packet packet;
+
+        float framerate = float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator);
+        int slpTime = static_cast<int>((1.0f / framerate) * 1000) / 2;
+
+
+        const th_info& ti = video->mTheora.mInfo;
+
+        bool end = false;
+        while (!end)
         {
-            rs = new ResAnim;
+            bool ok = dec.read_packet(h, &dec._syncState, baseStream, &packet);
+            if (!ok)
+                break;
 
-            animationFrames frames;
-
-            file::handle h = file::open(name.c_str(), "rb");
-
-            OggDecoderBase dec;
-            dec.initStreams(h);
-
-
-
-            TheoraOggStream* video = dec._videoStream;
-
-            TheoraOggStream* baseStream = video;
-
-            th_decode_ctl(video->mTheora.mCtx, TH_DECCTL_SET_GRANPOS, &dec.mGranulepos, sizeof(dec.mGranulepos));
-            int ret = 0;
-
-            unsigned int time = getTimeMS();
-            unsigned int timeOffset = 0;
-
-
-
-            unsigned int ps = file::tell(h);
-
-            // Read audio packets, sending audio data to the sound hardware.
-            // When it's time to display a frame, decode the frame and display it.
-            ogg_packet packet;
-
-            float framerate = float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator);
-            int slpTime = static_cast<int>((1.0f / framerate) * 1000) / 2;
-
-
-            const th_info& ti = video->mTheora.mInfo;
-
-            bool end = false;
-            while (!end)
+            if (video)
             {
-                bool ok = dec.read_packet(h, &dec._syncState, baseStream, &packet);
-                if (!ok)
-                    break;
+                timeMS video_time = timeMS(th_granule_time(video->mTheora.mCtx, dec.mGranulepos) * 1000);
 
-                if (video)
+
+
+                // The granulepos for a packet gives the time of the end of the
+                // display interval of the frame in the packet.  We keep the
+                // granulepos of the frame we've decoded and use this to know the
+                // time when to display the next frame.
+                int ret = th_decode_packetin(baseStream->mTheora.mCtx,
+                                                &packet,
+                                                &dec.mGranulepos);
+                if (ret >= 0)
                 {
-                    timeMS video_time = timeMS(th_granule_time(video->mTheora.mCtx, dec.mGranulepos) * 1000);
+                    if (ret == TH_DUPFRAME)
+                        continue;
 
 
 
-                    // The granulepos for a packet gives the time of the end of the
-                    // display interval of the frame in the packet.  We keep the
-                    // granulepos of the frame we've decoded and use this to know the
-                    // time when to display the next frame.
-                    int ret = th_decode_packetin(baseStream->mTheora.mCtx,
-                                                 &packet,
-                                                 &dec.mGranulepos);
-                    if (ret >= 0)
+                    th_ycbcr_buffer buffer;
+                    ret = th_decode_ycbcr_out(baseStream->mTheora.mCtx, buffer);
+                    OX_ASSERT(ret == 0);
+
+
+                    MemoryTexture memYA;
+                    memYA.init(ti.frame_width, ti.frame_height / 2, TF_A8L8);
+
+                    ImageData dstYA = memYA.lock();
+                    unsigned char* destYA = dstYA.data;
+
+                    const unsigned char* srcY = buffer[0].data + ti.pic_y * buffer[0].stride;
+
+                    int stride = buffer[0].stride;
+                    int w = ti.pic_width;
+                    int h = ti.pic_height;
+
+                    int fw = ti.frame_width;
+
+
+                    Rect bounds = Rect::invalidated();
+
+                    if (true)
                     {
-                        if (ret == TH_DUPFRAME)
-                            continue;
-
-
-
-                        th_ycbcr_buffer buffer;
-                        ret = th_decode_ycbcr_out(baseStream->mTheora.mCtx, buffer);
-                        OX_ASSERT(ret == 0);
-
-
-                        MemoryTexture memYA;
-                        memYA.init(ti.frame_width, ti.frame_height / 2, TF_A8L8);
-
-                        ImageData dstYA = memYA.lock();
-                        unsigned char* destYA = dstYA.data;
-
-                        const unsigned char* srcY = buffer[0].data + ti.pic_y * buffer[0].stride;
-
-                        int stride = buffer[0].stride;
-                        int w = ti.pic_width;
-                        int h = ti.pic_height;
-
-                        int fw = ti.frame_width;
-
-
-                        Rect bounds = Rect::invalidated();
-
-                        if (true)
-                        {
-                            h /= 2;
-                            const unsigned char* srcA = srcY + ti.pic_height / 2 * buffer[0].stride;
-
-                            for (int y = 0; y != h; y++)
-                            {
-                                const unsigned char* srcLineA = srcA;
-                                const unsigned char* srcLineY = srcY;
-                                unsigned char* destLineYA = destYA;
-
-                                for (int x = 0; x !=  fw; x++)
-                                {
-                                    *destLineYA++ = *srcLineY++;
-                                    unsigned char a = *srcLineA++;
-                                    int v = (a - 16) * 255 / 219;
-                                    *destLineYA++ = Clamp2Byte(v);
-
-                                    if (v)
-                                    {
-                                        bounds.unite(Rect(x, y, 1, 1));
-                                    }
-                                }
-                                srcY += stride;
-                                srcA += stride;
-
-                                destYA += dstYA.pitch;
-                            }
-                        }
-
-
-                        MemoryTexture memUV;
-                        memUV.init(ti.frame_width / 2, ti.frame_height / 4, TF_A8L8);
-                        memUV.fill_zero();
-
-                        ImageData dstUV = memUV.lock();
-                        unsigned char* destUV = dstUV.data;
-
-                        const unsigned char* srcU = buffer[2].data + ti.pic_y / 2 * buffer[2].stride;
-                        const unsigned char* srcV = buffer[1].data + ti.pic_y / 2 * buffer[1].stride;
-
-                        stride = buffer[1].stride;
-                        w = buffer[1].width;
-                        h = buffer[1].height;
-
-                        if (true)
-                            h /= 2;
+                        h /= 2;
+                        const unsigned char* srcA = srcY + ti.pic_height / 2 * buffer[0].stride;
 
                         for (int y = 0; y != h; y++)
                         {
-                            const unsigned char* srcLineU = srcU;
-                            const unsigned char* srcLineV = srcV;
-                            unsigned char* destLineUV = destUV;
+                            const unsigned char* srcLineA = srcA;
+                            const unsigned char* srcLineY = srcY;
+                            unsigned char* destLineYA = destYA;
 
-                            for (int x = 0; x != w; x++)
+                            for (int x = 0; x !=  fw; x++)
                             {
-                                *destLineUV++ = *srcLineU++;
-                                *destLineUV++ = *srcLineV++;
+                                *destLineYA++ = *srcLineY++;
+                                unsigned char a = *srcLineA++;
+                                int v = (a - 16) * 255 / 219;
+                                *destLineYA++ = Clamp2Byte(v);
+
+                                if (v)
+                                {
+                                    bounds.unite(Rect(x, y, 1, 1));
+                                }
                             }
-                            srcU += stride;
-                            srcV += stride;
-                            destUV += dstUV.pitch;
+                            srcY += stride;
+                            srcA += stride;
+
+                            destYA += dstYA.pitch;
                         }
-
-
-
-
-                        MemoryTexture res;
-                        res.init(ti.frame_width, ti.frame_height / 2, TF_R8G8B8A8);
-
-                        ImageData dest = res.lock();
-
-                        unsigned char* destRGBA = dest.data;
-
-                        const unsigned char* srcYA = dstYA.data;
-                        const unsigned char* srcUV = dstUV.data;
-
-
-
-                        PixelR8G8B8A8 p;
-                        for (int Y = 0; Y != h; Y++)
-                        {
-                            const unsigned char* srcLineYA = srcYA;
-                            const unsigned char* srcLineUV = srcUV;
-                            unsigned char*       destLineRGBA = destRGBA;
-
-                            for (int x = 0; x != w; x++)
-                            {
-                                Pixel px;
-
-                                const unsigned char* ya = srcLineYA;
-                                unsigned char* rgba = destLineRGBA;
-
-
-                                makePixel(px, ya, srcLineUV);
-                                p.setPixel(rgba, px);
-
-                                ya += 2;
-                                rgba += 4;
-
-
-                                makePixel(px, ya, srcLineUV);
-                                p.setPixel(rgba, px);
-
-                                ya += dstYA.pitch - 2;
-                                rgba += dest.pitch - 4;
-
-
-                                makePixel(px, ya, srcLineUV);
-                                p.setPixel(rgba, px);
-
-                                ya += 2;
-                                rgba += 4;
-
-                                makePixel(px, ya, srcLineUV);
-                                p.setPixel(rgba, px);
-
-                                destLineRGBA += 4 * 2;
-                                srcLineUV += dstUV.bytespp;
-                                srcLineYA += dstYA.bytespp * 2;
-                            }
-
-
-                            destRGBA += dest.pitch;
-                            destRGBA += dest.pitch;
-
-                            srcYA += dstYA.pitch;
-                            srcYA += dstYA.pitch;
-
-                            srcUV += dstUV.pitch;
-                        }
-
-
-
-                        Rect rc;
-                        //dest = dest.getRect(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
-
-                        /*
-                        {
-                            char nme[255];
-                            static int i = 0;
-                            safe_sprintf(nme, "im/imnc%05d.png", i);
-                            ++i;
-                            saveImage(dest, nme);
-                            int q = 0;
-                        }
-
-                        {
-                            char nme[255];
-                            static int i = 0;
-                            safe_sprintf(nme, "im/im%05d.png", i);
-                            ++i;
-                            saveImage(dest, nme);
-                            int q = 0;
-                        }
-
-                        {
-                            char nme[255];
-                            static int i = 0;
-                            safe_sprintf(nme, "im/ya%05d.png", i);
-                            ++i;
-                            saveImage(memYA.lock(), nme);
-                            int q = 0;
-                        }
-
-
-                        {
-                            char nme[255];
-                            static int i = 0;
-                            safe_sprintf(nme, "im/uv%05d.png", i);
-                            ++i;
-                            saveImage(memUV.lock(), nme);
-                            int q = 0;
-                        }
-                        */
-
-
-						Point offset(2, 2);
-						if (bounds == Rect::invalidated())
-						{
-							bounds = Rect(0, 0, 0, 0);
-						} 
-
-						//bounds.pos.x += ti.pic_x;
-						bounds.clip(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
-						dest = dest.getRect(bounds);
-                        if (!_atlas.add(_mt.get(), dest, rc, offset))
-                        {
-                            next_atlas();
-                            _atlas.add(_mt.get(), dest, rc, offset);
-                        }
-						
-
-                        AnimationFrame frame;
-                        Diffuse df;
-                        df.base = _native;
-                        df.premultiplied = true;
-                        RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
-                        RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
-						destRectF = bounds.cast<RectF>();
-						
-                        frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2));
-
-                        frames.push_back(frame);
                     }
+
+
+                    MemoryTexture memUV;
+                    memUV.init(ti.frame_width / 2, ti.frame_height / 4, TF_A8L8);
+                    memUV.fill_zero();
+
+                    ImageData dstUV = memUV.lock();
+                    unsigned char* destUV = dstUV.data;
+
+                    const unsigned char* srcU = buffer[2].data + ti.pic_y / 2 * buffer[2].stride;
+                    const unsigned char* srcV = buffer[1].data + ti.pic_y / 2 * buffer[1].stride;
+
+                    stride = buffer[1].stride;
+                    w = buffer[1].width;
+                    h = buffer[1].height;
+
+                    if (true)
+                        h /= 2;
+
+                    for (int y = 0; y != h; y++)
+                    {
+                        const unsigned char* srcLineU = srcU;
+                        const unsigned char* srcLineV = srcV;
+                        unsigned char* destLineUV = destUV;
+
+                        for (int x = 0; x != w; x++)
+                        {
+                            *destLineUV++ = *srcLineU++;
+                            *destLineUV++ = *srcLineV++;
+                        }
+                        srcU += stride;
+                        srcV += stride;
+                        destUV += dstUV.pitch;
+                    }
+
+
+
+
+                    MemoryTexture res;
+                    res.init(ti.frame_width, ti.frame_height / 2, TF_R8G8B8A8);
+
+                    ImageData dest = res.lock();
+
+                    unsigned char* destRGBA = dest.data;
+
+                    const unsigned char* srcYA = dstYA.data;
+                    const unsigned char* srcUV = dstUV.data;
+
+
+
+                    PixelR8G8B8A8 p;
+                    for (int Y = 0; Y != h; Y++)
+                    {
+                        const unsigned char* srcLineYA = srcYA;
+                        const unsigned char* srcLineUV = srcUV;
+                        unsigned char*       destLineRGBA = destRGBA;
+
+                        for (int x = 0; x != w; x++)
+                        {
+                            Pixel px;
+
+                            const unsigned char* ya = srcLineYA;
+                            unsigned char* rgba = destLineRGBA;
+
+
+                            makePixel(px, ya, srcLineUV);
+                            p.setPixel(rgba, px);
+
+                            ya += 2;
+                            rgba += 4;
+
+
+                            makePixel(px, ya, srcLineUV);
+                            p.setPixel(rgba, px);
+
+                            ya += dstYA.pitch - 2;
+                            rgba += dest.pitch - 4;
+
+
+                            makePixel(px, ya, srcLineUV);
+                            p.setPixel(rgba, px);
+
+                            ya += 2;
+                            rgba += 4;
+
+                            makePixel(px, ya, srcLineUV);
+                            p.setPixel(rgba, px);
+
+                            destLineRGBA += 4 * 2;
+                            srcLineUV += dstUV.bytespp;
+                            srcLineYA += dstYA.bytespp * 2;
+                        }
+
+
+                        destRGBA += dest.pitch;
+                        destRGBA += dest.pitch;
+
+                        srcYA += dstYA.pitch;
+                        srcYA += dstYA.pitch;
+
+                        srcUV += dstUV.pitch;
+                    }
+
+
+
+                    Rect rc;
+                    //dest = dest.getRect(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
+
+                    /*
+                    {
+                        char nme[255];
+                        static int i = 0;
+                        safe_sprintf(nme, "im/imnc%05d.png", i);
+                        ++i;
+                        saveImage(dest, nme);
+                        int q = 0;
+                    }
+
+                    {
+                        char nme[255];
+                        static int i = 0;
+                        safe_sprintf(nme, "im/im%05d.png", i);
+                        ++i;
+                        saveImage(dest, nme);
+                        int q = 0;
+                    }
+
+                    {
+                        char nme[255];
+                        static int i = 0;
+                        safe_sprintf(nme, "im/ya%05d.png", i);
+                        ++i;
+                        saveImage(memYA.lock(), nme);
+                        int q = 0;
+                    }
+
+
+                    {
+                        char nme[255];
+                        static int i = 0;
+                        safe_sprintf(nme, "im/uv%05d.png", i);
+                        ++i;
+                        saveImage(memUV.lock(), nme);
+                        int q = 0;
+                    }
+                    */
+
+
+					Point offset(2, 2);
+					if (bounds == Rect::invalidated())
+					{
+						bounds = Rect(0, 0, 0, 0);
+					} 
+
+					Rect clip(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2);
+					if (_optBounds)
+						bounds.clip(clip);
+					else
+						bounds = clip;
+					dest = dest.getRect(bounds);
+                    if (!_atlas.add(_mt.get(), dest, rc, offset))
+                    {
+                        next_atlas();
+                        _atlas.add(_mt.get(), dest, rc, offset);
+                    }
+						
+
+                    AnimationFrame frame;
+                    Diffuse df;
+                    df.base = _native;
+                    df.premultiplied = true;
+                    RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
+                    RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
+					destRectF = bounds.cast<RectF>();
+						
+                    frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2));
+
+                    frames.push_back(frame);
                 }
             }
-
-            next_atlas();
-
-
-
-            rs->init(frames, frames.size());
-
-            ret = ogg_sync_clear(&dec._syncState);
-
-            file::close(h);
         }
-    };
 
-    ResAnim* createResAnimFromMovie(const string& name, const Point& atlasSize)
+        //
+
+
+
+        rs->init(frames, frames.size());
+
+        ret = ogg_sync_clear(&dec._syncState);
+
+        file::close(h);
+
+		return rs;
+    }
+
+
+    ResAnim* createResAnimFromMovie(const string& name, const Point& atlasSize, TextureFormat tf)
     {
-        ResAnimTheoraPacker p;
-        p._atlasSize = atlasSize;
-        p.abc(name);
-        return p.rs;
+        ResAnimTheoraPacker p(atlasSize, tf);
+        return p.decode(name);
     }
 
     class OggDecoder: public OggDecoderBase
