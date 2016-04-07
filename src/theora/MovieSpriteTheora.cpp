@@ -455,7 +455,9 @@ namespace oxygine
 
 			bool s = reader.parse(str, js);
 		}
-		float sc = js["scale"].asFloat();
+		float scale = 1.0f;
+		if (!js.isNull())
+			scale = js["scale"].asFloat();
 
 
         TheoraOggStream* video = dec._videoStream;
@@ -733,7 +735,7 @@ namespace oxygine
                     df.premultiplied = true;
                     RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
                     RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
-					destRectF = bounds.cast<RectF>();
+					destRectF = bounds.cast<RectF>() * scale;
 						
                     frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2));
 
