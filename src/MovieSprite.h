@@ -129,25 +129,25 @@ namespace oxygine
     ResAnim* createResAnimFromMovie(const std::string& name, const Point& atlasSize, TextureFormat tf = TF_R8G8B8A8);
 
 
-	class ResAnimTheoraPacker
-	{
-	public:
-		ResAnimTheoraPacker(const Point &atlasSize, TextureFormat tf, bool optBounds = true);
-		~ResAnimTheoraPacker();
+    class ResAnimTheoraPacker
+    {
+    public:
+        ResAnimTheoraPacker(const Point& atlasSize, TextureFormat tf, bool optBounds = true);
+        ~ResAnimTheoraPacker();
 
-		ResAnim* decode(const std::string& name);
+        ResAnim* decode(const std::string& name);
 
-	protected:
-		void next_atlas();
-		void sync();
+    protected:
+        void next_atlas();
+        void sync();
 
-		bool _optBounds;
+        bool _optBounds;
 
-		Atlas2 _atlas;
-		Point _atlasSize;
-		TextureFormat _tf;
-		spMemoryTexture _mt;
-		spNativeTexture _native;
-	};
-	
+        Atlas2 _atlas;
+        Point _atlasSize;
+        TextureFormat _tf;
+        spMemoryTexture _mt;
+        spNativeTexture _native;
+    };
+
 }

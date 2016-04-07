@@ -288,14 +288,14 @@ namespace oxygine
                 headersDone = headersDone || handle_vorbis_header(stream, &packet);
                 if (!headersDone)
                 {
-					// Consume the packet
+                    // Consume the packet
                     ret = ogg_stream_packetout(&stream->mState, &packet);
                     OX_ASSERT(ret == 1);
                 }
             }
         }
     }
-	
+
 
     void OggDecoderBase::initStreams(file::handle h)
     {
@@ -386,40 +386,41 @@ namespace oxygine
         px.a = *(ya + A_OFFSET);
     }
 
-    
-	ResAnimTheoraPacker::ResAnimTheoraPacker(const Point &atlasSize, TextureFormat tf, bool optBounds):_atlasSize(atlasSize), _tf(tf), _optBounds(optBounds)
-	{
-	}
 
-	ResAnimTheoraPacker::~ResAnimTheoraPacker()
-	{
-		sync();
-	}
+    ResAnimTheoraPacker::ResAnimTheoraPacker(const Point& atlasSize, TextureFormat tf, bool optBounds): _atlasSize(atlasSize), _tf(tf), _optBounds(optBounds)
+    {
+    }
 
-	void ResAnimTheoraPacker::sync()
-	{
-		if (_mt)
-		{
-			CreateTextureTask t;
-			t.src = _mt;
-			t.dest = _native;
-			LoadResourcesContext::get()->createTexture(t);
+    ResAnimTheoraPacker::~ResAnimTheoraPacker()
+    {
+        sync();
+    }
 
+    void ResAnimTheoraPacker::sync()
+    {
+        if (_mt)
+        {
+            CreateTextureTask t;
+            t.src = _mt;
+            t.dest = _native;
+            LoadResourcesContext::get()->createTexture(t);
 
-			char nme[255];
-			static int i = 0;
-			safe_sprintf(nme, "im%05d.png", i);
-			++i;
-			saveImage(_mt->lock(), nme);
-			int q = 0;
-		}
-	}
+#if 0
+            char nme[255];
+            static int i = 0;
+            safe_sprintf(nme, "im%05d.png", i);
+            ++i;
+            saveImage(_mt->lock(), nme);
+            int q = 0;
+#endif
+        }
+    }
 
 
 
     void ResAnimTheoraPacker::next_atlas()
-	{
-		sync();
+    {
+        sync();
 
         _mt = new MemoryTexture;
         _mt->init(_atlasSize.x, _atlasSize.y, _tf);
@@ -439,25 +440,25 @@ namespace oxygine
         OggDecoderBase dec;
         dec.initStreams(h);
 
-		
-		Json::Value js(Json::objectValue);
-		{
-			const char *userData = th_comment_query(&dec._videoStream->mTheora.mComment, "ORGANIZATION", 0);
-			Json::Reader reader;
-			int ln = strlen(userData);
-		
-			base64_decodestate state;
-			base64_init_decodestate(&state);
-			string str;
-			str.resize(ln * 3 / 4);
-			if (ln)
-				base64_decode_block(userData, ln, (char*)&str.front(), &state);
 
-			bool s = reader.parse(str, js);
-		}
-		float scale = 1.0f;
-		if (!js.isNull())
-			scale = js["scale"].asFloat();
+        Json::Value js(Json::objectValue);
+        {
+            const char* userData = th_comment_query(&dec._videoStream->mTheora.mComment, "ORGANIZATION", 0);
+            Json::Reader reader;
+            int ln = strlen(userData);
+
+            base64_decodestate state;
+            base64_init_decodestate(&state);
+            string str;
+            str.resize(ln * 3 / 4);
+            if (ln)
+                base64_decode_block(userData, ln, (char*)&str.front(), &state);
+
+            bool s = reader.parse(str, js);
+        }
+        float scale = 1.0f;
+        if (!js.isNull())
+            scale = js["scale"].asFloat();
 
 
         TheoraOggStream* video = dec._videoStream;
@@ -502,8 +503,8 @@ namespace oxygine
                 // granulepos of the frame we've decoded and use this to know the
                 // time when to display the next frame.
                 int ret = th_decode_packetin(baseStream->mTheora.mCtx,
-                                                &packet,
-                                                &dec.mGranulepos);
+                                             &packet,
+                                             &dec.mGranulepos);
                 if (ret >= 0)
                 {
                     if (ret == TH_DUPFRAME)
@@ -710,24 +711,24 @@ namespace oxygine
                     */
 
 
-					Point offset(2, 2);
-					if (bounds == Rect::invalidated())
-					{
-						bounds = Rect(0, 0, 0, 0);
-					} 
+                    Point offset(2, 2);
+                    if (bounds == Rect::invalidated())
+                    {
+                        bounds = Rect(0, 0, 0, 0);
+                    }
 
-					Rect clip(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2);
-					if (_optBounds)
-						bounds.clip(clip);
-					else
-						bounds = clip;
-					dest = dest.getRect(bounds);
+                    Rect clip(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2);
+                    if (_optBounds)
+                        bounds.clip(clip);
+                    else
+                        bounds = clip;
+                    dest = dest.getRect(bounds);
                     if (!_atlas.add(_mt.get(), dest, rc, offset))
                     {
                         next_atlas();
                         _atlas.add(_mt.get(), dest, rc, offset);
                     }
-						
+
 
                     AnimationFrame frame;
                     Diffuse df;
@@ -735,8 +736,10 @@ namespace oxygine
                     df.premultiplied = true;
                     RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
                     RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
-					destRectF = bounds.cast<RectF>() * scale;
-						
+
+                    bounds.pos.x -= ti.pic_x;
+                    destRectF = bounds.cast<RectF>() / scale;
+
                     frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2));
 
                     frames.push_back(frame);
@@ -754,7 +757,7 @@ namespace oxygine
 
         file::close(h);
 
-		return rs;
+        return rs;
     }
 
 
