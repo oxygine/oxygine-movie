@@ -95,10 +95,10 @@ namespace oxygine
         _initPlayer();
 
         Point sz = _bufferSize;
-        sz = Point(nextPOT(sz.x), nextPOT(sz.y));
+        //sz = Point(nextPOT(sz.x), nextPOT(sz.y));
 
         Point uvSize = _bufferSize / 2;
-        uvSize = Point(nextPOT(uvSize.x), nextPOT(uvSize.y));
+        //uvSize = Point(nextPOT(uvSize.x), nextPOT(uvSize.y));
         //uvSize = sz;
         _mtUV.init(uvSize.x, uvSize.y, TF_A8L8);
         _mtUV.fill_zero();
