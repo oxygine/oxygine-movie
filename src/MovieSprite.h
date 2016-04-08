@@ -64,6 +64,7 @@ namespace oxygine
         /**skip frames if slow performance, default is True*/
         void setSkipFrames(bool skip);
 
+        void setDetachWhenDone(bool detach = true);
         /**Returns original movie dimension*/
         Point getMovieSize() const;
 
@@ -106,6 +107,7 @@ namespace oxygine
         bool _dirty;
         bool _ready;
         bool _skipFrames;
+        bool _detachWhenDone;
         int _volume;
 
         bool _paused;

@@ -508,7 +508,11 @@ namespace oxygine
                 if (ret >= 0)
                 {
                     if (ret == TH_DUPFRAME)
+                    {
+                        AnimationFrame prev = frames.back();
+                        frames.push_back(prev);
                         continue;
+                    }
 
 
 

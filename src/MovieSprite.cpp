@@ -21,7 +21,8 @@ namespace oxygine
         _looped(false),
         _skipFrames(true),
         _ready(false),
-        _hasAlphaChannel(false)
+        _hasAlphaChannel(false),
+        _detachWhenDone(false)
     {
     }
 
@@ -155,6 +156,11 @@ namespace oxygine
         _skipFrames = skip;
     }
 
+    void MovieSprite::setDetachWhenDone(bool detach)
+    {
+        _detachWhenDone = detach;
+    }
+
     Point MovieSprite::getMovieSize() const
     {
         return _movieRect.getSize();
@@ -251,6 +257,9 @@ namespace oxygine
 
             Event ev(MovieSprite::COMPLETE);
             dispatchEvent(&ev);
+
+            if (_detachWhenDone)
+                detach();
 
             releaseRef();
         });
