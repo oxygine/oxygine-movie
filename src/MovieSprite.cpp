@@ -52,30 +52,34 @@ namespace oxygine
         driver->setUniform("yaScale", &_yaScale, 1);
     }
 
-    void MovieSprite::doRender(const RenderState& rs)
+    bool MovieSprite::beginRender(const RenderState& rs)
     {
         convert();
 
         if (!_ready)
-            return;
+            return false;
 
         _shader->setShaderUniformsCallback(CLOSURE(this, &MovieSprite::setUniforms));
 
-#if OXYGINE_RENDERER > 2
+
         STDRenderer* renderer = STDRenderer::instance;
         renderer->setUberShaderProgram(_shader);
-        Sprite::doRender(rs);
+        return true;
+    }
+
+    void MovieSprite::endRender()
+    {
+        STDRenderer* renderer = STDRenderer::instance;
         renderer->setUberShaderProgram(&STDRenderer::uberShader);
-#else
-        STDRenderer* renderer = safeCast<STDRenderer*>(rs.renderer);
-        renderer->setUberShaderProgram(_shader);
-        Sprite::doRender(rs);
-        renderer->setUberShaderProgram(&Renderer::uberShader);
-#endif
-
         _shader->setShaderUniformsCallback(UberShaderProgram::ShaderUniformsCallback());
+    }
 
-        //Sprite::doRender(rs);
+    void MovieSprite::doRender(const RenderState& rs)
+    {
+        if (!beginRender(rs))
+            return;
+        Sprite::doRender(rs);
+        endRender();
     }
 
     /*

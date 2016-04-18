@@ -480,6 +480,8 @@ namespace oxygine
         ogg_packet packet;
 
         float framerate = float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator);
+        rs->setFrameRate((int)framerate);
+
         int slpTime = static_cast<int>((1.0f / framerate) * 1000) / 2;
 
 
@@ -674,6 +676,7 @@ namespace oxygine
 
                     Rect rc;
                     //dest = dest.getRect(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
+
 
                     /*
                     {

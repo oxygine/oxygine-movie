@@ -33,6 +33,9 @@ namespace oxygine
         static void free();
         static spMovieSprite create();
 
+        static UberShaderProgram* _shader;
+        void setUniforms(IVideoDriver* driver, ShaderProgram* prog);
+
         //event dispatched when movie is completed
         enum { COMPLETE = Event::COMPLETE };
 
@@ -67,6 +70,9 @@ namespace oxygine
         void setDetachWhenDone(bool detach = true);
         /**Returns original movie dimension*/
         Point getMovieSize() const;
+
+        bool beginRender(const RenderState& rs);
+        void endRender();
 
     protected:
         void initPlayer();
@@ -118,9 +124,6 @@ namespace oxygine
         bool _initialized;
         bool _completeDispatched;
         bool _looped;
-
-        static UberShaderProgram* _shader;
-        void setUniforms(IVideoDriver* driver, ShaderProgram* prog);
     };
 
     DECLARE_SMART(MovieTween, spMovieTween);
