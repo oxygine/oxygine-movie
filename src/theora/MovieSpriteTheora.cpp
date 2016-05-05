@@ -387,7 +387,7 @@ namespace oxygine
     }
 
 
-    ResAnimTheoraPacker::ResAnimTheoraPacker(const Point& atlasSize, TextureFormat tf, bool optBounds): _atlasSize(atlasSize), _tf(tf), _optBounds(optBounds)
+    ResAnimTheoraPacker::ResAnimTheoraPacker(const Point& atlasSize, TextureFormat tf, bool optBounds): _atlasSize(atlasSize), _tf(tf), _optBounds(optBounds), _dec(0), _h(0)
     {
     }
 
@@ -429,21 +429,16 @@ namespace oxygine
         _native = IVideoDriver::instance->createTexture();
     }
 
-    ResAnim* ResAnimTheoraPacker::decode(const string& name)
+    void ResAnimTheoraPacker::prepare(const std::string& name, details* det)
     {
-        ResAnim* rs = new ResAnim;
+        _h = file::open(name.c_str(), "rb");
 
-        animationFrames frames;
-
-        file::handle h = file::open(name.c_str(), "rb");
-
-        OggDecoderBase dec;
-        dec.initStreams(h);
-
+        _dec = new OggDecoderBase;
+        _dec->initStreams(_h);
 
         Json::Value js(Json::objectValue);
         {
-            const char* userData = th_comment_query(&dec._videoStream->mTheora.mComment, "ORGANIZATION", 0);
+            const char* userData = th_comment_query(&_dec->_videoStream->mTheora.mComment, "ORGANIZATION", 0);
             Json::Reader reader;
             int ln = strlen(userData);
 
@@ -456,9 +451,34 @@ namespace oxygine
 
             bool s = reader.parse(str, js);
         }
-        float scale = 1.0f;
+        _scale = 1.0f;
+        int frames = 0;
+
         if (!js.isNull())
-            scale = js["scale"].asFloat();
+        {
+            _scale = js["scale"].asFloat();
+            frames = js["frames"].asInt();
+        }
+
+        TheoraOggStream* video = _dec->_videoStream;
+
+        const th_info& ti = video->mTheora.mInfo;
+        if (det)
+        {
+
+            det->size = Point(ti.pic_width / _scale, ti.pic_height / 2 / _scale);
+            det->frames = frames;
+            det->framerate = int(float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator));
+        }
+    }
+
+    void ResAnimTheoraPacker::decode(ResAnim* rs)
+    {
+        OggDecoderBase& dec = *_dec;
+
+        animationFrames frames;
+
+
 
 
         TheoraOggStream* video = dec._videoStream;
@@ -473,7 +493,7 @@ namespace oxygine
 
 
 
-        unsigned int ps = file::tell(h);
+        unsigned int ps = file::tell(_h);
 
         // Read audio packets, sending audio data to the sound hardware.
         // When it's time to display a frame, decode the frame and display it.
@@ -490,7 +510,7 @@ namespace oxygine
         bool end = false;
         while (!end)
         {
-            bool ok = dec.read_packet(h, &dec._syncState, baseStream, &packet);
+            bool ok = dec.read_packet(_h, &dec._syncState, baseStream, &packet);
             if (!ok)
                 break;
 
@@ -678,11 +698,12 @@ namespace oxygine
                     //dest = dest.getRect(Rect(ti.pic_x, 0, ti.pic_width, ti.pic_height / 2));
 
 
+
                     /*
                     {
                         char nme[255];
                         static int i = 0;
-                        safe_sprintf(nme, "im/imnc%05d.png", i);
+                        safe_sprintf(nme, "im/%s%05d.png", path::extractFileName(name).c_str(), i);
                         ++i;
                         saveImage(dest, nme);
                         int q = 0;
@@ -745,9 +766,9 @@ namespace oxygine
                     RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
 
                     bounds.pos.x -= ti.pic_x;
-                    destRectF = bounds.cast<RectF>() / scale;
+                    destRectF = bounds.cast<RectF>() / _scale;
 
-                    frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2));
+                    frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2) / _scale);
 
                     frames.push_back(frame);
                 }
@@ -762,16 +783,19 @@ namespace oxygine
 
         ret = ogg_sync_clear(&dec._syncState);
 
-        file::close(h);
-
-        return rs;
+        file::close(_h);
+        delete _dec;
+        _dec = 0;
     }
 
 
     ResAnim* createResAnimFromMovie(const string& name, const Point& atlasSize, TextureFormat tf)
     {
+        ResAnim* rs = new ResAnim;
         ResAnimTheoraPacker p(atlasSize, tf);
-        return p.decode(name);
+        p.prepare(name, 0);
+        p.decode(rs);
+        return rs;
     }
 
     class OggDecoder: public OggDecoderBase

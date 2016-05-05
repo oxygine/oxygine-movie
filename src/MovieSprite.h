@@ -133,6 +133,7 @@ namespace oxygine
     class ResAnim;
     ResAnim* createResAnimFromMovie(const std::string& name, const Point& atlasSize, TextureFormat tf = TF_R8G8B8A8);
 
+    class OggDecoderBase;
 
     class ResAnimTheoraPacker
     {
@@ -140,13 +141,27 @@ namespace oxygine
         ResAnimTheoraPacker(const Point& atlasSize, TextureFormat tf, bool optBounds = true);
         ~ResAnimTheoraPacker();
 
-        ResAnim* decode(const std::string& name);
+        struct details
+        {
+            Point size;
+            int frames;
+            int framerate;
+        };
+
+        void prepare(const std::string& name, details*);
+
+        void decode(ResAnim* rs);
 
     protected:
         void next_atlas();
         void sync();
 
         bool _optBounds;
+
+        OggDecoderBase* _dec;
+        file::handle _h;
+
+        float _scale;
 
         Atlas2 _atlas;
         Point _atlasSize;
