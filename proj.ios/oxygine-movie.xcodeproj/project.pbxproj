@@ -7,34 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		92C8481A1BD2004400DEA843 /* MovieSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C848151BD2004400DEA843 /* MovieSprite.cpp */; settings = {ASSET_TAGS = (); }; };
-		92C8481B1BD2004400DEA843 /* MovieSpriteTheora.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C848181BD2004400DEA843 /* MovieSpriteTheora.cpp */; settings = {ASSET_TAGS = (); }; };
-		92C848911BD2049A00DEA843 /* analyze.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848611BD2049A00DEA843 /* analyze.c */; settings = {ASSET_TAGS = (); }; };
-		92C848921BD2049A00DEA843 /* apiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848621BD2049A00DEA843 /* apiwrapper.c */; settings = {ASSET_TAGS = (); }; };
-		92C848931BD2049A00DEA843 /* bitpack.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848641BD2049A00DEA843 /* bitpack.c */; settings = {ASSET_TAGS = (); }; };
-		92C848941BD2049A00DEA843 /* cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848661BD2049A00DEA843 /* cpu.c */; settings = {ASSET_TAGS = (); }; };
-		92C848951BD2049A00DEA843 /* decapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848691BD2049A00DEA843 /* decapiwrapper.c */; settings = {ASSET_TAGS = (); }; };
-		92C848961BD2049A00DEA843 /* decinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486A1BD2049A00DEA843 /* decinfo.c */; settings = {ASSET_TAGS = (); }; };
-		92C848971BD2049A00DEA843 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486C1BD2049A00DEA843 /* decode.c */; settings = {ASSET_TAGS = (); }; };
-		92C848981BD2049A00DEA843 /* dequant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486D1BD2049A00DEA843 /* dequant.c */; settings = {ASSET_TAGS = (); }; };
-		92C848991BD2049A00DEA843 /* encapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486F1BD2049A00DEA843 /* encapiwrapper.c */; settings = {ASSET_TAGS = (); }; };
-		92C8489A1BD2049A00DEA843 /* encfrag.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848701BD2049A00DEA843 /* encfrag.c */; settings = {ASSET_TAGS = (); }; };
-		92C8489B1BD2049A00DEA843 /* encinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848711BD2049A00DEA843 /* encinfo.c */; settings = {ASSET_TAGS = (); }; };
-		92C8489D1BD2049A00DEA843 /* encoder_disabled.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848741BD2049A00DEA843 /* encoder_disabled.c */; settings = {ASSET_TAGS = (); }; };
-		92C8489E1BD2049A00DEA843 /* enquant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848751BD2049A00DEA843 /* enquant.c */; settings = {ASSET_TAGS = (); }; };
-		92C8489F1BD2049A00DEA843 /* fdct.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848771BD2049A00DEA843 /* fdct.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A01BD2049A00DEA843 /* fragment.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848781BD2049A00DEA843 /* fragment.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A11BD2049A00DEA843 /* huffdec.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848791BD2049A00DEA843 /* huffdec.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A21BD2049A00DEA843 /* huffenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487B1BD2049A00DEA843 /* huffenc.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A31BD2049A00DEA843 /* idct.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487E1BD2049A00DEA843 /* idct.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A41BD2049A00DEA843 /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487F1BD2049A00DEA843 /* info.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A51BD2049A00DEA843 /* internal.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848801BD2049A00DEA843 /* internal.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A61BD2049A00DEA843 /* mathops.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848841BD2049A00DEA843 /* mathops.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A71BD2049A00DEA843 /* mcenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848861BD2049A00DEA843 /* mcenc.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A81BD2049A00DEA843 /* quant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848891BD2049A00DEA843 /* quant.c */; settings = {ASSET_TAGS = (); }; };
-		92C848A91BD2049A00DEA843 /* rate.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488B1BD2049A00DEA843 /* rate.c */; settings = {ASSET_TAGS = (); }; };
-		92C848AA1BD2049A00DEA843 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488C1BD2049A00DEA843 /* state.c */; settings = {ASSET_TAGS = (); }; };
-		92C848AE1BD2049A00DEA843 /* tokenize.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848901BD2049A00DEA843 /* tokenize.c */; settings = {ASSET_TAGS = (); }; };
+		92C8481A1BD2004400DEA843 /* MovieSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C848151BD2004400DEA843 /* MovieSprite.cpp */; };
+		92C8481B1BD2004400DEA843 /* MovieSpriteTheora.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C848181BD2004400DEA843 /* MovieSpriteTheora.cpp */; };
+		92C848911BD2049A00DEA843 /* analyze.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848611BD2049A00DEA843 /* analyze.c */; };
+		92C848921BD2049A00DEA843 /* apiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848621BD2049A00DEA843 /* apiwrapper.c */; };
+		92C848931BD2049A00DEA843 /* bitpack.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848641BD2049A00DEA843 /* bitpack.c */; };
+		92C848941BD2049A00DEA843 /* cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848661BD2049A00DEA843 /* cpu.c */; };
+		92C848951BD2049A00DEA843 /* decapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848691BD2049A00DEA843 /* decapiwrapper.c */; };
+		92C848961BD2049A00DEA843 /* decinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486A1BD2049A00DEA843 /* decinfo.c */; };
+		92C848971BD2049A00DEA843 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486C1BD2049A00DEA843 /* decode.c */; };
+		92C848981BD2049A00DEA843 /* dequant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486D1BD2049A00DEA843 /* dequant.c */; };
+		92C848991BD2049A00DEA843 /* encapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486F1BD2049A00DEA843 /* encapiwrapper.c */; };
+		92C8489A1BD2049A00DEA843 /* encfrag.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848701BD2049A00DEA843 /* encfrag.c */; };
+		92C8489B1BD2049A00DEA843 /* encinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848711BD2049A00DEA843 /* encinfo.c */; };
+		92C8489D1BD2049A00DEA843 /* encoder_disabled.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848741BD2049A00DEA843 /* encoder_disabled.c */; };
+		92C8489E1BD2049A00DEA843 /* enquant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848751BD2049A00DEA843 /* enquant.c */; };
+		92C8489F1BD2049A00DEA843 /* fdct.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848771BD2049A00DEA843 /* fdct.c */; };
+		92C848A01BD2049A00DEA843 /* fragment.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848781BD2049A00DEA843 /* fragment.c */; };
+		92C848A11BD2049A00DEA843 /* huffdec.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848791BD2049A00DEA843 /* huffdec.c */; };
+		92C848A21BD2049A00DEA843 /* huffenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487B1BD2049A00DEA843 /* huffenc.c */; };
+		92C848A31BD2049A00DEA843 /* idct.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487E1BD2049A00DEA843 /* idct.c */; };
+		92C848A41BD2049A00DEA843 /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8487F1BD2049A00DEA843 /* info.c */; };
+		92C848A51BD2049A00DEA843 /* internal.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848801BD2049A00DEA843 /* internal.c */; };
+		92C848A61BD2049A00DEA843 /* mathops.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848841BD2049A00DEA843 /* mathops.c */; };
+		92C848A71BD2049A00DEA843 /* mcenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848861BD2049A00DEA843 /* mcenc.c */; };
+		92C848A81BD2049A00DEA843 /* quant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848891BD2049A00DEA843 /* quant.c */; };
+		92C848A91BD2049A00DEA843 /* rate.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488B1BD2049A00DEA843 /* rate.c */; };
+		92C848AA1BD2049A00DEA843 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488C1BD2049A00DEA843 /* state.c */; };
+		92C848AE1BD2049A00DEA843 /* tokenize.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848901BD2049A00DEA843 /* tokenize.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -321,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -358,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "../src ../../oxygine-framework/oxygine/src ../../oxygine-sound/dependencies/tremor/tremor ../../oxygine-sound/dependencies/libogg/include ../../oxygine-sound/dependencies/openal/include ../deps/libtheora/include";
