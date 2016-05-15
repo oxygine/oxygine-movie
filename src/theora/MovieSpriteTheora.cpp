@@ -466,7 +466,7 @@ namespace oxygine
         if (det)
         {
 
-            det->size = Point(ti.pic_width / _scale, ti.pic_height / 2 / _scale);
+            det->size = Vector2(ti.pic_width / _scale, ti.pic_height / 2 / _scale).cast<Point>();
             det->frames = frames;
             det->framerate = int(float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator));
         }
@@ -762,13 +762,13 @@ namespace oxygine
                     Diffuse df;
                     df.base = _native;
                     df.premultiplied = true;
-                    RectF srcRectF = rc.cast<RectF>() / Vector2(_mt->getWidth(), _mt->getHeight());
-                    RectF destRectF = RectF(0, 0, ti.pic_width, ti.pic_height / 2);
+                    RectF srcRectF = rc.cast<RectF>() / Vector2((int)_mt->getWidth(), (int)_mt->getHeight());
+                    RectF destRectF = RectF(0, 0, (float)ti.pic_width, ti.pic_height / 2.0f);
 
                     bounds.pos.x -= ti.pic_x;
                     destRectF = bounds.cast<RectF>() / _scale;
 
-                    frame.init(0, df, srcRectF, destRectF, Vector2(ti.pic_width, ti.pic_height / 2) / _scale);
+                    frame.init(0, df, srcRectF, destRectF, Vector2((float)ti.pic_width, ti.pic_height / 2.0f) / _scale);
 
                     frames.push_back(frame);
                 }
