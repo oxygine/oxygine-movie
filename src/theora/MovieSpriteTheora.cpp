@@ -431,7 +431,7 @@ namespace oxygine
 
     void ResAnimTheoraPacker::prepare(const std::string& name, details* det)
     {
-        _h = file::open(name.c_str(), "rb");
+        _h = file::open(name.c_str(), "srb");
 
         _dec = new OggDecoderBase;
         _dec->initStreams(_h);
@@ -493,7 +493,7 @@ namespace oxygine
 
 
 
-        unsigned int ps = file::tell(_h);
+        //unsigned int ps = file::tell(_h);
 
         // Read audio packets, sending audio data to the sound hardware.
         // When it's time to display a frame, decode the frame and display it.
@@ -1231,7 +1231,7 @@ namespace oxygine
         OX_ASSERT(_file == 0);
         OX_ASSERT(_decoder == 0);
 
-        _file = file::open(_fname.c_str(), "rb");
+        _file = file::open(_fname.c_str(), "srb");
 
         _decoder = new OggDecoder(_mtUV, _mtYA, _mutex, _msg, _looped, _hasAlphaChannel, _skipFrames);
         _decoder->init(_file);
@@ -1355,7 +1355,7 @@ namespace oxygine
 
             _looped = false;
 
-            _file = file::open(_fname.c_str(), "rb");
+            _file = file::open(_fname.c_str(), "srb");
             _decoder = new OggDecoder(_mtUV, _mtYA, _mutex, _msg, _looped, _alpha);
             _decoder->init(_file);
 
