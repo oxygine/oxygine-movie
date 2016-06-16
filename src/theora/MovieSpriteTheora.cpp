@@ -423,6 +423,31 @@ namespace oxygine
         sync();
 
         _mt = new MemoryTexture;
+
+
+        OggDecoderBase& dec = *_dec;
+        TheoraOggStream* video = dec._videoStream;
+
+        int picW = video->mTheora.mInfo.pic_width + 4;
+        int picH = video->mTheora.mInfo.pic_height / 2 + 4;
+
+        int cols = 2048 / picW;
+        _atlasSize.x = cols * picW;
+        int left = _framesLeft;
+        int rows = left / cols;
+        if (_frames > cols && (left % cols))
+            rows += 1;
+        if (rows == 0)
+            rows = 1;
+
+        _atlasSize.y = rows * picH;
+        while (_atlasSize.y > 1024)
+        {
+            rows /= 2;
+            _atlasSize.y = rows * picH;
+        }
+
+
         _mt->init(_atlasSize.x, _atlasSize.y, _tf);
         _atlas.init(_mt->getWidth(), _mt->getHeight());
 
@@ -452,12 +477,11 @@ namespace oxygine
             bool s = reader.parse(str, js);
         }
         _scale = 1.0f;
-        int frames = 0;
 
         if (!js.isNull())
         {
             _scale = js["scale"].asFloat();
-            frames = js["frames"].asInt();
+            _frames = js["frames"].asInt();
         }
 
         TheoraOggStream* video = _dec->_videoStream;
@@ -467,7 +491,7 @@ namespace oxygine
         {
 
             det->size = Vector2(ti.pic_width / _scale, ti.pic_height / 2 / _scale).cast<Point>();
-            det->frames = frames;
+            det->frames = _frames;
             det->framerate = int(float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator));
         }
     }
@@ -502,7 +526,8 @@ namespace oxygine
         float framerate = float(video->mTheora.mInfo.fps_numerator) / float(video->mTheora.mInfo.fps_denominator);
         rs->setFrameRate((int)framerate);
 
-        int slpTime = static_cast<int>((1.0f / framerate) * 1000) / 2;
+        _framesLeft = _frames;
+
 
 
         const th_info& ti = video->mTheora.mInfo;
@@ -771,6 +796,7 @@ namespace oxygine
                     frame.init(0, df, srcRectF, destRectF, Vector2((float)ti.pic_width, ti.pic_height / 2.0f) / _scale);
 
                     frames.push_back(frame);
+                    _framesLeft--;
                 }
             }
         }
