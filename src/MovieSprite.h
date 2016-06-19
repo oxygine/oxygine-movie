@@ -162,6 +162,8 @@ namespace oxygine
         file::handle _h;
 
         float _scale;
+        int _frames;
+        int _framesLeft;
 
         Atlas2 _atlas;
         Point _atlasSize;
