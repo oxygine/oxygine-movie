@@ -74,6 +74,8 @@ namespace oxygine
         bool beginRender(const RenderState& rs);
         void endRender();
 
+        void convert();
+
     protected:
         void initPlayer();
         void clear();
@@ -95,7 +97,7 @@ namespace oxygine
         void doRender(const RenderState& rs) OVERRIDE;
         void doUpdate(const UpdateState& us) OVERRIDE;
 
-        void convert();
+
 
         Mutex _mutex;
 
