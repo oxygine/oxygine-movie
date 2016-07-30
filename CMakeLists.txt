@@ -51,6 +51,11 @@ set (SRC ${SRC}
 
 add_library(oxygine-movie STATIC ${SRC})
 
+if (WIN32)
+	set_target_properties(oxygine-movie PROPERTIES COMPILE_FLAGS "/wd4554 /wd4018 /wd4554 /wd4700 /wd4244 /wd4018 /wd4700 /wd4101")
+endif(WIN32)
+
+
 set(OXYGINEMOVIE_INCLUDE_DIRS ${OXYGINEMOVIE_INCLUDE_DIRS}
 	${CMAKE_CURRENT_SOURCE_DIR}/dependencies/openal/include)
 

@@ -59,8 +59,8 @@ namespace oxygine
         /**Changes size of texture where video is rendering. Default value is equal to original movie dimension. Should be called before Play*/
         //void setBufferSize(const Point& size);
 
-        /**Set volume: [0-100]*/
-        void setVolume(int v);
+        /**Set volume: [0-1]*/
+        void setVolume(float v);
 
         void setLooped(bool);
 
@@ -116,7 +116,7 @@ namespace oxygine
         bool _ready;
         bool _skipFrames;
         bool _detachWhenDone;
-        int _volume;
+        float _volume;
 
         bool _paused;
         bool _playing;

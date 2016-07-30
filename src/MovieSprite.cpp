@@ -104,6 +104,7 @@ namespace oxygine
         Point uvSize = _bufferSize / 2;
         //uvSize = Point(nextPOT(uvSize.x), nextPOT(uvSize.y));
         //uvSize = sz;
+
         _mtUV.init(uvSize.x, uvSize.y, TF_A8L8);
         _mtUV.fill_zero();
         _textureUV = IVideoDriver::instance->createTexture();
@@ -144,7 +145,7 @@ namespace oxygine
         _update(us);
     }
 
-    void MovieSprite::setVolume(int v)
+    void MovieSprite::setVolume(float v)
     {
         _volume = v;
         _setVolume(v);
