@@ -15,7 +15,7 @@
 		92C848941BD2049A00DEA843 /* cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848661BD2049A00DEA843 /* cpu.c */; };
 		92C848951BD2049A00DEA843 /* decapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848691BD2049A00DEA843 /* decapiwrapper.c */; };
 		92C848961BD2049A00DEA843 /* decinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486A1BD2049A00DEA843 /* decinfo.c */; };
-		92C848971BD2049A00DEA843 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486C1BD2049A00DEA843 /* decode.c */; };
+		92C848971BD2049A00DEA843 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486C1BD2049A00DEA843 /* decode.c */; settings = {COMPILER_FLAGS = "-Wno-shift-negative-value"; }; };
 		92C848981BD2049A00DEA843 /* dequant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486D1BD2049A00DEA843 /* dequant.c */; };
 		92C848991BD2049A00DEA843 /* encapiwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8486F1BD2049A00DEA843 /* encapiwrapper.c */; };
 		92C8489A1BD2049A00DEA843 /* encfrag.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848701BD2049A00DEA843 /* encfrag.c */; };
@@ -33,7 +33,7 @@
 		92C848A71BD2049A00DEA843 /* mcenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848861BD2049A00DEA843 /* mcenc.c */; };
 		92C848A81BD2049A00DEA843 /* quant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848891BD2049A00DEA843 /* quant.c */; };
 		92C848A91BD2049A00DEA843 /* rate.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488B1BD2049A00DEA843 /* rate.c */; };
-		92C848AA1BD2049A00DEA843 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488C1BD2049A00DEA843 /* state.c */; };
+		92C848AA1BD2049A00DEA843 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488C1BD2049A00DEA843 /* state.c */; settings = {COMPILER_FLAGS = "-Wno-tautological-compare"; }; };
 		92C848AE1BD2049A00DEA843 /* tokenize.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848901BD2049A00DEA843 /* tokenize.c */; };
 /* End PBXBuildFile section */
 
@@ -369,6 +369,13 @@
 		92EEFD561BD1FECA00DEAA40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_MISSING_PARENTHESES = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -378,6 +385,13 @@
 		92EEFD571BD1FECA00DEAA40 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_MISSING_PARENTHESES = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

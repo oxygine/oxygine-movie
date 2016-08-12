@@ -463,7 +463,8 @@ namespace oxygine
 
         Json::Value js(Json::objectValue);
         {
-            const char* userData = th_comment_query(&_dec->_videoStream->mTheora.mComment, "ORGANIZATION", 0);
+            char ORG[] = "ORGANIZATION";
+            const char* userData = th_comment_query(&_dec->_videoStream->mTheora.mComment, ORG, 0);
             Json::Reader reader;
             int ln = strlen(userData);
 
