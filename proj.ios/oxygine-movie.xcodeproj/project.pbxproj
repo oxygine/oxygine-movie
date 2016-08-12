@@ -32,7 +32,7 @@
 		92C848A61BD2049A00DEA843 /* mathops.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848841BD2049A00DEA843 /* mathops.c */; };
 		92C848A71BD2049A00DEA843 /* mcenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848861BD2049A00DEA843 /* mcenc.c */; };
 		92C848A81BD2049A00DEA843 /* quant.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848891BD2049A00DEA843 /* quant.c */; };
-		92C848A91BD2049A00DEA843 /* rate.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488B1BD2049A00DEA843 /* rate.c */; };
+		92C848A91BD2049A00DEA843 /* rate.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488B1BD2049A00DEA843 /* rate.c */; settings = {COMPILER_FLAGS = "-Wno-shift-negative-value"; }; };
 		92C848AA1BD2049A00DEA843 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C8488C1BD2049A00DEA843 /* state.c */; settings = {COMPILER_FLAGS = "-Wno-tautological-compare"; }; };
 		92C848AE1BD2049A00DEA843 /* tokenize.c in Sources */ = {isa = PBXBuildFile; fileRef = 92C848901BD2049A00DEA843 /* tokenize.c */; };
 /* End PBXBuildFile section */
