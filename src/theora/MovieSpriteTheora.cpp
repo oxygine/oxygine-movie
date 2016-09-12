@@ -788,7 +788,7 @@ namespace oxygine
                     Diffuse df;
                     df.base = _native;
                     df.premultiplied = true;
-					
+
                     RectF srcRectF = rc.cast<RectF>() / _mt->getSize().cast<Vector2>();
                     RectF destRectF = RectF(0, 0, (float)ti.pic_width, ti.pic_height / 2.0f);
 
