@@ -106,12 +106,12 @@ namespace oxygine
         //uvSize = sz;
 
         _mtUV.init(uvSize.x, uvSize.y, TF_A8L8);
-        _mtUV.fill_zero();
+        _mtUV.fillZero();
         _textureUV = IVideoDriver::instance->createTexture();
         _textureUV->init(uvSize.x, uvSize.y, _mtUV.getFormat(), false);
 
         _mtYA.init(sz.x, sz.y, _hasAlphaChannel ? TF_A8L8 : TF_L8);
-        _mtYA.fill_zero();
+        _mtYA.fillZero();
         _textureYA = IVideoDriver::instance->createTexture();
         _textureYA->init(sz.x, sz.y, _mtYA.getFormat(), false);
 
