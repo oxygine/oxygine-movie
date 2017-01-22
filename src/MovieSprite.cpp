@@ -1,5 +1,7 @@
 #include "MovieSprite.h"
 
+#include "Material.h"
+#include "STDMaterial.h"
 #include "core/oxygine.h"
 #include "core/Mutex.h"
 #include "core/ImageDataOperations.h"
@@ -59,6 +61,9 @@ namespace oxygine
         if (!_ready)
             return false;
 
+        Material::setCurrent(0);
+        Material::setCurrent(STDMaterial::instance);
+
         _shader->setShaderUniformsCallback(CLOSURE(this, &MovieSprite::setUniforms));
 
 
@@ -72,6 +77,7 @@ namespace oxygine
         STDRenderer* renderer = STDRenderer::instance;
         renderer->setUberShaderProgram(&STDRenderer::uberShader);
         _shader->setShaderUniformsCallback(UberShaderProgram::ShaderUniformsCallback());
+        Material::setCurrent(0);
     }
 
     void MovieSprite::doRender(const RenderState& rs)
