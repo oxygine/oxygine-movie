@@ -14,7 +14,7 @@ LOCAL_SRC_FILES += \
 	$(SRC)/Test.cpp 
 
 
-LOCAL_STATIC_LIBRARIES := oxygine-framework_static oxygine-sound_static oxygine-movie_static
+LOCAL_STATIC_LIBRARIES := oxygine-movie_static oxygine-framework_static oxygine-sound_static 
 LOCAL_SHARED_LIBRARIES := SDL2
 
 include $(BUILD_SHARED_LIBRARY)
