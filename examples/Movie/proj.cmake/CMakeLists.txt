@@ -27,7 +27,7 @@ add_executable(Movie
 	)
 
 target_link_libraries(Movie
-	${OXYGINE_CORE_LIBS} ${OXYGINESOUND_LIBS} ${OXYGINEMOVIE_LIBS})
+	${OXYGINEMOVIE_LIBS} ${OXYGINE_CORE_LIBS} ${OXYGINESOUND_LIBS} )
 
 
 if (WIN32) #disable console mode for VC++
