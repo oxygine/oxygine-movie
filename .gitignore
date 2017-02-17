@@ -12,3 +12,9 @@ examples/Movie/proj.android/gen/
 examples/Movie/proj.android/libs/
 examples/Movie/proj.android/obj/
 examples/Movie/proj.cmake/build
+
+*.db
+
+examples/Movie/proj\.win32/\.vs/Movie/v14/\.suo
+
+*.dll
