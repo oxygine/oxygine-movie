@@ -94,8 +94,8 @@ namespace oxygine
         //virtual Point _getMovieSize() const = 0;
 
 
-        void doRender(const RenderState& rs) OVERRIDE;
-        void doUpdate(const UpdateState& us) OVERRIDE;
+        void doRender(const RenderState& rs) override;
+        void doUpdate(const UpdateState& us) override;
 
 
 
