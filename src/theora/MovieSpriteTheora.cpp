@@ -619,7 +619,7 @@ namespace oxygine
 
                     MemoryTexture memUV;
                     memUV.init(ti.frame_width / 2, ti.frame_height / 4, TF_A8L8);
-                    memUV.fill_zero();
+                    memUV.fillZero();
 
                     ImageData dstUV = memUV.lock();
                     unsigned char* destUV = dstUV.data;
@@ -1222,11 +1222,7 @@ namespace oxygine
 
 
         _shader->init(
-#if OXYGINE_RENDERER > 2
             STDRenderer::uberShaderBody,
-#else
-            Renderer::uberShaderBody,
-#endif
             "#define REPLACED_GET_BASE\n"
             "lowp vec4 replaced_get_base();",
             base.c_str());
