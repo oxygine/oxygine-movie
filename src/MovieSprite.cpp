@@ -1,15 +1,15 @@
 #include "MovieSprite.h"
 
-#include "Material.h"
-#include "STDMaterial.h"
-#include "core/oxygine.h"
-#include "core/Mutex.h"
-#include "core/ImageDataOperations.h"
-#include "core/UberShaderProgram.h"
-#include "RenderState.h"
-#include "STDRenderer.h"
-#include "Stage.h"
-#include "core/ThreadMessages.h"
+#include "oxygine/Material.h"
+#include "oxygine/STDMaterial.h"
+#include "oxygine/core/oxygine.h"
+#include "oxygine/core/Mutex.h"
+#include "oxygine/core/ImageDataOperations.h"
+#include "oxygine/core/UberShaderProgram.h"
+#include "oxygine/RenderState.h"
+#include "oxygine/STDRenderer.h"
+#include "oxygine/Stage.h"
+#include "oxygine/core/ThreadMessages.h"
 
 namespace oxygine
 {

@@ -1,9 +1,9 @@
 #pragma once
-#include "Sprite.h"
-#include "MemoryTexture.h"
-#include "core/Mutex.h"
+#include "oxygine/Sprite.h"
+#include "oxygine/MemoryTexture.h"
+#include "oxygine/core/Mutex.h"
 #include <string>
-#include "utils/AtlasTool.h"
+#include "oxygine/utils/AtlasBuilder.h"
 
 namespace oxygine
 {

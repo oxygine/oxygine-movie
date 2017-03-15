@@ -1,8 +1,8 @@
 #pragma once
 #include "MovieSprite.h"
-#include "core/file.h"
+#include "oxygine/core/file.h"
 #include "pthread.h"
-#include "core/ThreadMessages.h"
+#include "oxygine/core/ThreadMessages.h"
 
 namespace oxygine
 {
