@@ -1,6 +1,6 @@
 #pragma once
-#include "oxygine/Sprite.h"
-#include "oxygine/MemoryTexture.h"
+#include "oxygine/actor/Sprite.h"
+#include "oxygine/Image.h"
 #include "oxygine/core/Mutex.h"
 #include <string>
 #include "oxygine/utils/AtlasBuilder.h"
@@ -104,8 +104,8 @@ namespace oxygine
         Point _bufferSize;
         Rect _movieRect;
 
-        MemoryTexture _mtUV;
-        MemoryTexture _mtYA;
+        Image _mtUV;
+        Image _mtYA;
         spNativeTexture _textureUV;
         spNativeTexture _textureYA;
         Vector2     _yaScale;
@@ -170,7 +170,7 @@ namespace oxygine
         Atlas2 _atlas;
         Point _atlasSize;
         TextureFormat _tf;
-        spMemoryTexture _mt;
+        spImage _mt;
         spNativeTexture _native;
     };
 

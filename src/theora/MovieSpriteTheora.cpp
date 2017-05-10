@@ -422,7 +422,7 @@ namespace oxygine
     {
         sync();
 
-        _mt = new MemoryTexture;
+        _mt = new Image;
 
 
         OggDecoderBase& dec = *_dec;
@@ -569,7 +569,7 @@ namespace oxygine
                     OX_ASSERT(ret == 0);
 
 
-                    MemoryTexture memYA;
+                    Image memYA;
                     memYA.init(ti.frame_width, ti.frame_height / 2, TF_A8L8);
 
                     ImageData dstYA = memYA.lock();
@@ -617,7 +617,7 @@ namespace oxygine
                     }
 
 
-                    MemoryTexture memUV;
+                    Image memUV;
                     memUV.init(ti.frame_width / 2, ti.frame_height / 4, TF_A8L8);
                     memUV.fillZero();
 
@@ -653,7 +653,7 @@ namespace oxygine
 
 
 
-                    MemoryTexture res;
+                    Image res;
                     res.init(ti.frame_width, ti.frame_height / 2, TF_R8G8B8A8);
 
                     ImageData dest = res.lock();
@@ -787,7 +787,8 @@ namespace oxygine
                     AnimationFrame frame;
                     Diffuse df;
                     df.base = _native;
-                    df.premultiplied = true;
+                    OX_ASSERT(0);
+                    //df.premultiplied = true;
 
                     RectF srcRectF = rc.cast<RectF>() / _mt->getSize().cast<Vector2>();
                     RectF destRectF = RectF(0, 0, (float)ti.pic_width, ti.pic_height / 2.0f);
@@ -832,8 +833,8 @@ namespace oxygine
 
 
         Mutex& _mutex;
-        MemoryTexture& _surfaceUV;
-        MemoryTexture& _surfaceYA;
+        Image& _surfaceUV;
+        Image& _surfaceYA;
 
         ThreadMessages& _msg;
         bool _updated;
@@ -850,7 +851,7 @@ namespace oxygine
 
 
     public:
-        OggDecoder(MemoryTexture& uv, MemoryTexture& ya, Mutex& mt, ThreadMessages& msg, bool& looped, bool hasAlpha, bool skipFrames) :
+        OggDecoder(Image& uv, Image& ya, Mutex& mt, ThreadMessages& msg, bool& looped, bool hasAlpha, bool skipFrames) :
             _surfaceUV(uv), _surfaceYA(ya), _mutex(mt), _looped(looped),
             _pictureRect(0, 0, 0, 0),
             _frameSize(0, 0),

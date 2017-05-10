@@ -8,7 +8,7 @@
 #include "oxygine/core/UberShaderProgram.h"
 #include "oxygine/RenderState.h"
 #include "oxygine/STDRenderer.h"
-#include "oxygine/Stage.h"
+#include "oxygine/actor/Stage.h"
 #include "oxygine/core/ThreadMessages.h"
 
 namespace oxygine
@@ -61,8 +61,9 @@ namespace oxygine
         if (!_ready)
             return false;
 
-        Material::setCurrent(0);
-        Material::setCurrent(STDMaterial::instance);
+        OX_ASSERT(0);
+        //Material::setCurrent(0);
+        //Material::setCurrent(STDMaterial::instance);
 
         _shader->setShaderUniformsCallback(CLOSURE(this, &MovieSprite::setUniforms));
 
@@ -74,10 +75,11 @@ namespace oxygine
 
     void MovieSprite::endRender()
     {
+        OX_ASSERT(0);
         STDRenderer* renderer = STDRenderer::instance;
         renderer->setUberShaderProgram(&STDRenderer::uberShader);
         _shader->setShaderUniformsCallback(UberShaderProgram::ShaderUniformsCallback());
-        Material::setCurrent(0);
+        //Material::setCurrent(0);
     }
 
     void MovieSprite::doRender(const RenderState& rs)
@@ -129,7 +131,9 @@ namespace oxygine
         Diffuse d;
         d.base = _textureYA;
         d.alpha = _textureUV;
-        d.premultiplied = true;
+
+        OX_ASSERT(0);
+        //d.premultiplied = true;
 
         AnimationFrame frame;
         RectF mr = _movieRect.cast<RectF>();
