@@ -1,7 +1,7 @@
 #include "MovieSprite.h"
 
 #include "oxygine/Material.h"
-#include "oxygine/STDMaterial.h"
+#include "oxygine/STDRenderDelegate.h"
 #include "oxygine/core/oxygine.h"
 #include "oxygine/core/Mutex.h"
 #include "oxygine/core/ImageDataOperations.h"
