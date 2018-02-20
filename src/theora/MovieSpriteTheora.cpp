@@ -991,7 +991,7 @@ namespace oxygine
             {
                 ogg_int64_t position = 0;
                 timeMS video_time = timeMS(th_granule_time(video->mTheora.mCtx, mGranulepos) * 1000);
-                //log::messageln("%d - %d", video_time, mGranulepos);
+                //logs::messageln("%d - %d", video_time, mGranulepos);
                 int tm = 0;
 
                 while (true)
@@ -1006,7 +1006,7 @@ namespace oxygine
 
                 if (handle_theora_data(video, &packet))
                 {
-                    //log::messageln("frame");
+                    //logs::messageln("frame");
                     if (first_frame_reply)
                     {
                         _msg.reply(0);
@@ -1057,7 +1057,7 @@ namespace oxygine
             int t = getTimeMS();
             MutexAutoLock al(_mutex);
             t = getTimeMS() - t;
-            //log::messageln("lock %d", t);
+            //logs::messageln("lock %d", t);
 
 
             ImageData dstYA = _surfaceYA.lock();
@@ -1148,7 +1148,7 @@ namespace oxygine
         }
         else
         {
-            //log::messageln("skip");
+            //logs::messageln("skip");
         }
 
         return false;
