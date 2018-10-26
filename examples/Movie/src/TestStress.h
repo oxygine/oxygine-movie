@@ -39,7 +39,7 @@ public:
             num = 0;
             _atlas.clean();
             _atlas.init(getWidth(), getHeight());
-            content->removeChildren();
+            _content->removeChildren();
         }
         if (id == "add")
         {
@@ -62,7 +62,7 @@ public:
                 {
                     movie->setPosition(src.getLeftTop());
                     movie->setScale(scale);
-                    content->addChild(movie);
+                    _content->addChild(movie);
                     ++num;
                     break;
                 }

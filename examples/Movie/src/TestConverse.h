@@ -13,7 +13,7 @@ public:
         sp = new Sprite();
         sp->setResAnim(gameResources.getResAnim("from_game"));
         sp->setPosition(175.0f, 176.0f);
-        sp->attachTo(content);
+        sp->attachTo(_content);
 
         movie = MovieSprite::create();
         movie->setMovie("movies/trap.ogv", true);
@@ -21,7 +21,7 @@ public:
         movie->play();
         movie->pause();
         movie->setPosition(-10.0f, -10.0f);
-        movie->attachTo(content);
+        movie->attachTo(_content);
         movie->setVisible(false);
 
         addButton("swap", "show/hide movie");

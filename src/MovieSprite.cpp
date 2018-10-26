@@ -48,46 +48,33 @@ namespace oxygine
             _ready = true;
         }
     }
-
-    void MovieSprite::setUniforms(IVideoDriver* driver, ShaderProgram* prog)
-    {
-        driver->setUniform("yaScale", &_yaScale, 1);
-    }
-
-    bool MovieSprite::beginRender(const RenderState& rs)
+    
+    void MovieSprite::doRender(const RenderState& rs)
     {
         convert();
 
         if (!_ready)
-            return false;
-
-        OX_ASSERT(0);
-        //Material::setCurrent(0);
-        //Material::setCurrent(STDMaterial::instance);
-
-        _shader->setShaderUniformsCallback(CLOSURE(this, &MovieSprite::setUniforms));
-
-
-        STDRenderer* renderer = STDRenderer::instance;
-        renderer->setUberShaderProgram(_shader);
-        return true;
-    }
-
-    void MovieSprite::endRender()
-    {
-        OX_ASSERT(0);
-        STDRenderer* renderer = STDRenderer::instance;
-        renderer->setUberShaderProgram(&STDRenderer::uberShader);
-        _shader->setShaderUniformsCallback(UberShaderProgram::ShaderUniformsCallback());
-        //Material::setCurrent(0);
-    }
-
-    void MovieSprite::doRender(const RenderState& rs)
-    {
-        if (!beginRender(rs))
             return;
-        Sprite::doRender(rs);
-        endRender();
+
+        Material::null->apply();
+
+        STDRenderer* renderer = STDRenderer::getCurrent();
+                
+        renderer->setUberShaderProgram(_shader);
+        //renderer->setShaderFlags(UberShaderProgram::ALPHA_PREMULTIPLY);
+        renderer->setShaderFlags(0);
+
+        renderer->setTransform(rs.transform);
+        IVideoDriver::instance->setUniform("yaScale", &_yaScale, 1);
+
+        Color color = rs.getFinalColor(getColor());
+
+        rsCache().setTexture(0, _textureYA);
+        rsCache().setTexture(1, _textureUV);
+        rsCache().setBlendMode(blend_alpha);
+        renderer->addQuad(color, getAnimFrame().getSrcRect(), getDestRect());
+
+        renderer->flush();
     }
 
     /*
@@ -132,7 +119,7 @@ namespace oxygine
         d.base = _textureYA;
         d.alpha = _textureUV;
 
-        OX_ASSERT(0);
+        //OX_ASSERT(0);
         //d.premultiplied = true;
 
         AnimationFrame frame;

@@ -4,9 +4,9 @@
     If you just started here and don't understand the code completely, feel free to come back later.
     You can start from example.cpp and example.h, which main functions are called from here.
 */
-#include "oxygine/core/oxygine.h"
-#include "oxygine/Stage.h"
-#include "oxygine/DebugActor.h"
+#include "ox/oxygine.hpp"
+#include "ox/Stage.hpp"
+#include "ox/DebugActor.hpp"
 #include "example.h"
 
 
@@ -50,12 +50,9 @@ void run()
     core::init_desc desc;
     desc.title = "Oxygine Application";
 
-#if OXYGINE_SDL || OXYGINE_EMSCRIPTEN
-    // The initial window size can be set up here on SDL builds
+    // The initial window size can be set up here on SDL builds, ignored on Mobile devices
     desc.w = 960;
     desc.h = 640;
-    // Marmalade settings can be modified from the emulator's menu
-#endif
 
 
     example_preinit();
@@ -63,7 +60,7 @@ void run()
 
 
     // Create the stage. Stage is a root node for all updateable and drawable objects
-    Stage::instance = new Stage(true);
+    Stage::instance = new Stage();
     Point size = core::getDisplaySize();
     getStage()->setSize(size);
 
@@ -85,7 +82,7 @@ void run()
 
 #if TARGET_OS_IPHONE || TARGET_OS_SIMULATOR
     // On iPhone mainloop is called automatically by CADisplayLink, see int main() below
-    return;
+    //return;
 #endif
 
     // This is the main game loop.
@@ -125,15 +122,6 @@ void run()
     //end
 }
 
-#ifdef __S3E__
-int main(int argc, char* argv[])
-{
-    run();
-    return 0;
-}
-#endif
-
-
 #ifdef OXYGINE_SDL
 
 #include "SDL_main.h"
@@ -151,7 +139,7 @@ extern "C"
 
 #if TARGET_OS_IPHONE || TARGET_OS_SIMULATOR
         // If parameter 2 is set to 1, refresh rate will be 60 fps, 2 - 30 fps, 3 - 15 fps.
-        SDL_iPhoneSetAnimationCallback(core::getWindow(), 1, one, nullptr);
+        //SDL_iPhoneSetAnimationCallback(core::getWindow(), 1, one, nullptr);
 #endif
 
 #if EMSCRIPTEN

@@ -15,7 +15,7 @@ public:
         sp = new Sprite();
         sp->addTween(TweenAnim(rs), 2000, -1);
         sp->setPosition(175.0f, 176.0f);
-        sp->attachTo(content);
+        sp->attachTo(_content);
 
         addButton("swap", "show/hide movie");
     }

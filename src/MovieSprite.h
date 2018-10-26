@@ -34,7 +34,6 @@ namespace oxygine
         static spMovieSprite create();
 
         static UberShaderProgram* _shader;
-        void setUniforms(IVideoDriver* driver, ShaderProgram* prog);
 
         //event dispatched when movie is completed
         enum { COMPLETE = Event::COMPLETE };
@@ -71,8 +70,8 @@ namespace oxygine
         /**Returns original movie dimension*/
         Point getMovieSize() const;
 
-        bool beginRender(const RenderState& rs);
-        void endRender();
+        //bool beginRender(const RenderState& rs);
+        //void endRender();
 
         void convert();
 

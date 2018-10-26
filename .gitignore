@@ -18,3 +18,7 @@ examples/Movie/proj.cmake/build
 examples/Movie/proj\.win32/\.vs/Movie/v14/\.suo
 
 *.dll
+examples/Movie/proj.win32/Release_v140_xp/
+examples/Movie/proj.win32/.vs/
+*.suo
+*.user

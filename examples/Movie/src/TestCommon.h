@@ -120,6 +120,6 @@ public:
     spMovieSprite _movie;
     TestCommon()
     {
-        content->addChild(new MoviePlayer(this));
+        _content->addChild(new MoviePlayer(this));
     }
 };
