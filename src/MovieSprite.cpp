@@ -48,7 +48,7 @@ namespace oxygine
             _ready = true;
         }
     }
-    
+
     void MovieSprite::doRender(const RenderState& rs)
     {
         convert();
@@ -59,7 +59,7 @@ namespace oxygine
         Material::null->apply();
 
         STDRenderer* renderer = STDRenderer::getCurrent();
-                
+
         renderer->setUberShaderProgram(_shader);
         //renderer->setShaderFlags(UberShaderProgram::ALPHA_PREMULTIPLY);
         renderer->setShaderFlags(0);
